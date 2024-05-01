@@ -1,6 +1,4 @@
-from time import sleep
-from typing import List, Dict
-
+from typing import List, Dict, Tuple
 
 import requests
 
@@ -15,11 +13,6 @@ def album_ids():
             album_id TEXT PRIMARY KEY
         )
     ''')
- # ))))))))))))))))))))))))))))))))))
-    # get all ids stored in database
-    db_ids: list = []
-    for row in cur.execute('''SELECT * FROM albums_id'''):
-        db_ids.append(row[0])
 
     # this section finds all ids of albums of artists with artist's id
     resp_json: List[Dict] = []
@@ -27,27 +20,7 @@ def album_ids():
     for artist_id in list(artist_page.values()):
         url = f'{base_url}/artists/{artist_id}/albums?limit=50'
         response = requests.get(url, headers=auth_header, proxies=proxies)
-
-        # TODO: replace this section
-        # to avoiding spotify rate limit (status code 429)
-        cool_down = response.headers.get('Retrying-After')
-        if cool_down is not None:
-            print(f'cool down for: {cool_down}')  # TODO: delete this later!
-            sleep(int(cool_down) + 5)
-
-        # check if there are artist's information in database
-        first_id_albums = [new_id['id'] for new_id in response.json()['items']]
-        print(f'first albums: {first_id_albums} len: {len(first_id_albums)}')
-        unique_ids = [uid for uid in first_id_albums if uid not in db_ids]
-        print(f'unique ids: {unique_ids} len: {len(unique_ids)}')
-        if len(unique_ids) == len(first_id_albums):
-            resp_json.append(response.json())
-        elif len(unique_ids) < len(first_id_albums):
-            for uid in unique_ids:
-                cur.execute('''
-                            INSERT OR IGNORE INTO albums_id VALUES (?)
-                            ''', (uid,))
-                con.commit()
+        resp_json.append(response.json())
 
     # this loop adds rest of albums for artists with more than 50 albums
     for albums in resp_json:
@@ -57,60 +30,63 @@ def album_ids():
                 headers=auth_header,
                 proxies=proxies
             )
-            # to avoiding spotify rate limit (status code 429)
-            cool_down = response.headers.get('Retrying-After')
-            if cool_down is not None:
-                print(
-                    f'cool down for: {cool_down}')  # TODO: delete this later!
-                sleep(int(cool_down) + 5)
             resp_json.append(response.json())
 
-    # this loop insert all albums ids into album_id table
+    # this loop inserts all albums ids into album_id table
+    id_list_for_query: List[Tuple] = []
     for album in resp_json:
         for i in range(0, len(album['items'])):
-            album_id = album['items'][i]['id']
-            cur.execute('''
-                        INSERT OR IGNORE INTO albums_id VALUES (?)
-                        ''', (album_id,))
-            con.commit()
-    con.close()
+            id_list_for_query.append((album['items'][i]['id'],))
+
+    cur.executemany('''
+        INSERT OR IGNORE INTO albums_id (album_id) VALUES (?)
+        ''', id_list_for_query)
+    con.commit()
+
+
+def all_tracks():
+    # creating table tracks_id to save track_id tracks_name and release_date
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS tracks_id (
+        track_id TEXT PRIMARY KEY,
+        track_name TEXT,
+        release_date TEXT
+        )
+    ''')
+
+    album_ids_list: List[str] = []
+    albums_jsons: List[Dict] = []
+    id_list_for_query: List[Tuple] = []
+    # reading albums ids from database
+    for row in cur.execute('''SELECT * FROM albums_id'''):
+        album_ids_list.append(row[0])
+
+    for i in range(0, len(album_ids_list), 20):
+        album_id_20_string = ','.join(album_ids_list[i: i + 20])
+        url = f'{base_url}/albums?ids={album_id_20_string}'
+        response = requests.get(url, headers=auth_header, proxies=proxies)
+        albums_jsons.append(response.json()['albums'])
+
+    for album_20 in albums_jsons:
+        for album in album_20:
+            release_date = album['release_date']
+            for track in range(0, len(album['tracks']['items'])):
+                name = album['tracks']['items'][track]['name']
+                track_id = album['tracks']['items'][track]['id']
+                id_list_for_query.append((track_id, name, release_date))
+
+    cur.executemany('''
+        INSERT OR IGNORE INTO tracks_id (track_id, track_name, release_date)
+        VALUES (?, ?, ?)''', id_list_for_query)
+    con.commit()
+
 
 
 def main():
-    album_ids()
+    # album_ids()
+    all_tracks()
 
 
 if __name__ == '__main__':
     main()
-# cur.execute('''
-#     DELETE FROM albums WHERE artist='Shapur'
-# ''')
-
-
-# cur.execute('''
-#     CREATE TABLE IF NOT EXISTS albums_id (
-#         album_id TEXT PRIMARY KEY
-#     )
-# ''')
-#
-#
-# sample_data = [
-#     ('Fadaei', '5aWL79DpD45MzDMwCTZqsN'),
-#     ('Shapur', '6kbLiMnkNZHlvMpTv5iK9h'),
-#     ('Fadaei', '578d6XzxI0bCSi49dK0Qpx')
-# ]
-
-# for album_id in sample_data:
-#     cur.execute('''
-#         INSERT OR IGNORE INTO albums VALUES (?)
-#     ''', (album_id,))
-#
-#
-# con.commit()
-
-# Print all records in the albums table
-# for row in cur.execute('''SELECT * FROM albums'''):
-#     print(row)
-#
-#
-# con.close()
+    con.close()
