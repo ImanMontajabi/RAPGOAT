@@ -191,10 +191,53 @@ def track_details():
     con.commit()
 
 
+def artist_info():
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS artist_info (
+            artist_id TEXT PRIMARY KEY,
+            name TEXT,
+            followers INTEGER,
+            popularity INTEGER,
+            image TEXT
+        )
+    ''')
+
+    artists_ids: List[str] = list(artist_page.values())
+    fifty_id_list: List[List[str]] = []
+    artist_info_for_query: List[Tuple] = []
+    for i in range(0,  len(artists_ids), 50):
+        fifty_id_list.append(artists_ids[i: i + 50])
+
+    for id_list in fifty_id_list:
+        id_list_string = ','.join(id_list)
+        url = f'{base_url}/artists/?ids={id_list_string}'
+        response = requests.get(url, headers=auth_header, proxies=proxies)
+        for artist in response.json()['artists']:
+            artist_id = artist['id']
+            name = artist['name']
+            followers = artist['followers']['total']
+            popularity = artist['popularity']
+            image = artist['images'][0]['url']
+            artist_info_for_query.append(
+                (artist_id, name, followers, popularity, image)
+            )
+
+    cur.executemany('''
+        INSERT OR IGNORE INTO artist_info (
+            artist_id, 
+            name, 
+            followers, 
+            popularity, 
+            image) VALUES (?, ?, ?, ?, ?)
+    ''', artist_info_for_query)
+    con.commit()
+
+
 def main():
-    albums_details()
-    all_tracks()
-    track_details()
+    # albums_details()
+    # all_tracks()
+    # track_details()
+    artist_info()
 
 
 if __name__ == '__main__':
