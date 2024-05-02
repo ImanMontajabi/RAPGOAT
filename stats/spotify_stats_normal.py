@@ -1,12 +1,39 @@
+import os
+import json
+import base64
+# from time import sleep
+from random import shuffle
 from typing import List, Dict, Tuple
 
 import requests
 
-from spotify_auth import auth_header
 from init import proxies, artist_page, base_url, cur, con
+from dotenv import load_dotenv
 
 
-def albums_details():
+load_dotenv()
+CLIENT_ID = os.getenv('CLIENT_ID')
+CLIENT_SECRET = os.getenv('CLIENT_SECRET')
+
+
+def auth_header() -> Dict[str, str]:
+    auth_string = f'{CLIENT_ID}:{CLIENT_SECRET}'
+    auth_bytes = auth_string.encode('utf-8')
+    auth_base64 = str(base64.b64encode(auth_bytes), 'utf-8')
+
+    url = 'https://accounts.spotify.com/api/token'
+    headers = {
+        'Authorization': 'Basic ' + auth_base64,
+        'Content-Type': 'application/x-www-form-urlencoded'
+    }
+    data = {'grant_type': 'client_credentials'}
+    result = requests.post(url, headers=headers, data=data, proxies=proxies)
+    json_result = json.loads(result.content)
+    token = json_result['access_token']
+    return {'Authorization': f'Bearer {token}'}
+
+
+def albums_details(bunch: List[str]) -> None:
     # album_id is final output of this function
     cur.execute('''
         CREATE TABLE IF NOT EXISTS albums_details (
@@ -23,18 +50,20 @@ def albums_details():
 
     # this section finds all ids of albums of artists with artist's id
     resp_json: List[Dict] = []
-    # TODO: shuffle this -> artist_page.items()
-    for artist_id in list(artist_page.values()):
+
+    for artist_id in bunch:
+        header = auth_header()
         url = f'{base_url}/artists/{artist_id}/albums?limit=50'
-        response = requests.get(url, headers=auth_header, proxies=proxies)
+        response = requests.get(url, headers=header, proxies=proxies)
         resp_json.append(response.json())
 
     # this loop adds rest of albums for artists with more than 50 albums
     for albums in resp_json:
         if albums['next'] is not None:
+            header = auth_header()
             response = requests.get(
                 albums['next'],
-                headers=auth_header,
+                headers=header,
                 proxies=proxies
             )
             resp_json.append(response.json())
@@ -81,7 +110,7 @@ def albums_details():
     con.commit()
 
 
-def all_tracks():
+def all_tracks(bunch: List[str]) -> None:
     # creating table tracks_id to save track_id tracks_name and release_date
     cur.execute('''
         CREATE TABLE IF NOT EXISTS tracks_id (
@@ -91,17 +120,14 @@ def all_tracks():
         )
     ''')
 
-    album_ids_list: List[str] = []
     albums_json: List[Dict] = []
     id_list_for_query: List[Tuple] = []
-    # reading albums ids from database
-    for row in cur.execute('''SELECT * FROM albums_details'''):
-        album_ids_list.append(row[0])
 
-    for i in range(0, len(album_ids_list), 20):
-        album_id_20_string = ','.join(album_ids_list[i: i + 20])
+    for i in range(0, len(bunch), 20):
+        album_id_20_string = ','.join(bunch[i: i + 20])
+        header = auth_header()
         url = f'{base_url}/albums?ids={album_id_20_string}'
-        response = requests.get(url, headers=auth_header, proxies=proxies)
+        response = requests.get(url, headers=header, proxies=proxies)
         albums_json.append(response.json()['albums'])
 
     for twenty_albums in albums_json:
@@ -109,9 +135,10 @@ def all_tracks():
             release_date = album['release_date']
             if album['tracks']['next'] is not None:
                 next_tracks_url = album['tracks']['next']
+                header = auth_header()
                 next_response = requests.get(
                     next_tracks_url,
-                    headers=auth_header,
+                    headers=header,
                     proxies=proxies)
                 albums_json.append(next_response.json()['albums'])
             for track in range(0, len(album['tracks']['items'])):
@@ -125,7 +152,7 @@ def all_tracks():
     con.commit()
 
 
-def track_details():
+def track_details(bunch: List[str]) -> None:
     cur.execute('''
         CREATE TABLE IF NOT EXISTS track_details (
             track_id TEXT PRIMARY KEY,
@@ -139,15 +166,13 @@ def track_details():
         )
     ''')
 
-    track_id_list: List[str] = []
     tracks_json: List[Dict] = []
-    for row in cur.execute('''SELECT * FROM tracks_id'''):
-        track_id_list.append(row[0])
 
-    for i in range(0, len(track_id_list), 50):
-        track_id_50_string = ','.join(track_id_list[i: i + 50])
+    for i in range(0, len(bunch), 50):
+        track_id_50_string = ','.join(bunch[i: i + 50])
+        header = auth_header()
         url = f'{base_url}/tracks?ids={track_id_50_string}'
-        response = requests.get(url, headers=auth_header, proxies=proxies)
+        response = requests.get(url, headers=header, proxies=proxies)
         tracks_json.append(response.json()['tracks'])
 
     track_details_for_query: List[Tuple] = []
@@ -191,7 +216,7 @@ def track_details():
     con.commit()
 
 
-def artist_info():
+def artist_info(bunch: List[str]) -> None:
     cur.execute('''
         CREATE TABLE IF NOT EXISTS artist_info (
             artist_id TEXT PRIMARY KEY,
@@ -202,16 +227,13 @@ def artist_info():
         )
     ''')
 
-    artists_ids: List[str] = list(artist_page.values())
-    fifty_id_list: List[List[str]] = []
     artist_info_for_query: List[Tuple] = []
-    for i in range(0,  len(artists_ids), 50):
-        fifty_id_list.append(artists_ids[i: i + 50])
 
-    for id_list in fifty_id_list:
-        id_list_string = ','.join(id_list)
+    for i in range(0,  len(bunch), 50):
+        id_list_string = ','.join(bunch[i: i + 50])
+        header = auth_header()
         url = f'{base_url}/artists/?ids={id_list_string}'
-        response = requests.get(url, headers=auth_header, proxies=proxies)
+        response = requests.get(url, headers=header, proxies=proxies)
         for artist in response.json()['artists']:
             artist_id = artist['id']
             name = artist['name']
@@ -234,12 +256,82 @@ def artist_info():
 
 
 def main():
-    # albums_details()
-    # all_tracks()
-    # track_details()
-    artist_info()
+    while True:
+        try:
+            all_artists_ids: List[str] = list(artist_page.values())
+            shuffle(all_artists_ids)
+            chunk_artist: int = 5
+            len_artist: int = len(all_artists_ids)
+            for i in range(0, len_artist, chunk_artist):
+                bunch = all_artists_ids[i: i + chunk_artist]
+                albums_details(bunch)
+                # sleep(300)
+            else:
+                break
+        except Exception as e:
+            print(f'albums_details function: {e}')
+            # sleep(300)
+
+    # sleep(600)
+
+    while True:
+        try:
+            all_albums_ids: List[str] = []
+            chunk_album: int = 100
+            for row in cur.execute('''SELECT * FROM albums_details'''):
+                all_albums_ids.append(row[0])
+            shuffle(all_albums_ids)
+            len_albums: int = len(all_albums_ids)
+            for i in range(0, len_albums, chunk_album):
+                bunch = all_albums_ids[i: i + chunk_album]
+                all_tracks(bunch)
+                # sleep(300)
+            else:
+                break
+        except Exception as e:
+            print(f'all_track function: {e}')
+            # sleep(300
+
+    # sleep(600)
+
+    while True:
+        try:
+            all_tracks_ids: List[str] = []
+            chunk_track: int = 200
+            for row in cur.execute('''SELECT * FROM tracks_id'''):
+                all_tracks_ids.append(row[0])
+            shuffle(all_tracks_ids)
+            len_tracks: int = len(all_tracks_ids)
+            for i in range(0, len_tracks, chunk_track):
+                bunch = all_tracks_ids[i: i + chunk_track]
+                track_details(bunch)
+                # sleep(300)
+            else:
+                break
+        except Exception as e:
+            print(f'track_details function: {e}')
+
+    # sleep(600)
+
+    while True:
+        try:
+            all_artists_info_ids: List[str] = list(artist_page.values())
+            shuffle(all_artists_info_ids)
+            chunk_artist: int = 200
+            len_artist: int = len(all_artists_info_ids)
+            for i in range(0, len_artist, chunk_artist):
+                bunch = all_artists_info_ids[i: i + chunk_artist]
+                artist_info(bunch)
+            else:
+                break
+        except Exception as e:
+            print(f'artist_info function: {e}')
+        # sleep(300)
+
+    # sleep(600)
+
+    con.close()
 
 
 if __name__ == '__main__':
     main()
-    con.close()
