@@ -27,7 +27,18 @@ def auth_header() -> Dict[str, str]:
         'Content-Type': 'application/x-www-form-urlencoded'
     }
     data = {'grant_type': 'client_credentials'}
-    result = requests.post(url, headers=headers, data=data, proxies=proxies)
+    while True:
+        try:
+            result = requests.post(
+                url,
+                headers=headers,
+                data=data,
+                proxies=proxies)
+        except Exception as e:
+            print(f'auth_header -> post: {e}')
+            # sleep(60)
+        else:
+            break
     json_result = json.loads(result.content)
     token = json_result['access_token']
     return {'Authorization': f'Bearer {token}'}
@@ -54,18 +65,32 @@ def albums_details(bunch: List[str]) -> None:
     for artist_id in bunch:
         header = auth_header()
         url = f'{base_url}/artists/{artist_id}/albums?limit=50'
-        response = requests.get(url, headers=header, proxies=proxies)
+        while True:
+            try:
+                response = requests.get(url, headers=header, proxies=proxies)
+            except Exception as e:
+                print(f'albums_details -> get: {e}')
+                # sleep(60)
+            else:
+                break
         resp_json.append(response.json())
 
     # this loop adds rest of albums for artists with more than 50 albums
     for albums in resp_json:
         if albums['next'] is not None:
             header = auth_header()
-            response = requests.get(
-                albums['next'],
-                headers=header,
-                proxies=proxies
-            )
+            while True:
+                try:
+                    response = requests.get(
+                        albums['next'],
+                        headers=header,
+                        proxies=proxies
+                    )
+                except Exception as e:
+                    print(f'album_details -> get[next]: {e}')
+                    # sleep(60)
+                else:
+                    break
             resp_json.append(response.json())
 
     # this loop inserts all albums ids into album_id table
@@ -127,7 +152,14 @@ def all_tracks(bunch: List[str]) -> None:
         album_id_20_string = ','.join(bunch[i: i + 20])
         header = auth_header()
         url = f'{base_url}/albums?ids={album_id_20_string}'
-        response = requests.get(url, headers=header, proxies=proxies)
+        while True:
+            try:
+                response = requests.get(url, headers=header, proxies=proxies)
+            except Exception as e:
+                print(f'all_track -> get: {e}')
+                # sleep(60)
+            else:
+                break
         albums_json.append(response.json()['albums'])
 
     for twenty_albums in albums_json:
@@ -136,10 +168,17 @@ def all_tracks(bunch: List[str]) -> None:
             if album['tracks']['next'] is not None:
                 next_tracks_url = album['tracks']['next']
                 header = auth_header()
-                next_response = requests.get(
-                    next_tracks_url,
-                    headers=header,
-                    proxies=proxies)
+                while True:
+                    try:
+                        next_response = requests.get(
+                            next_tracks_url,
+                            headers=header,
+                            proxies=proxies)
+                    except Exception as e:
+                        print(f'all_track -> get[next]: {e}')
+                        # sleep(60)
+                    else:
+                        break
                 albums_json.append(next_response.json()['albums'])
             for track in range(0, len(album['tracks']['items'])):
                 name = album['tracks']['items'][track]['name']
@@ -169,10 +208,17 @@ def track_details(bunch: List[str]) -> None:
     tracks_json: List[Dict] = []
 
     for i in range(0, len(bunch), 50):
-        track_id_50_string = ','.join(bunch[i: i + 50])
+        track_id_string: str = ','.join(bunch[i: i + 50])
         header = auth_header()
-        url = f'{base_url}/tracks?ids={track_id_50_string}'
-        response = requests.get(url, headers=header, proxies=proxies)
+        url = f'{base_url}/tracks?ids={track_id_string}'
+        while True:
+            try:
+                response = requests.get(url, headers=header, proxies=proxies)
+            except Exception as e:
+                print(f'track_details -> get: {e}')
+                # sleep(60)
+            else:
+                break
         tracks_json.append(response.json()['tracks'])
 
     track_details_for_query: List[Tuple] = []
@@ -230,10 +276,17 @@ def artist_info(bunch: List[str]) -> None:
     artist_info_for_query: List[Tuple] = []
 
     for i in range(0,  len(bunch), 50):
-        id_list_string = ','.join(bunch[i: i + 50])
+        id_list_string: str = ','.join(bunch[i: i + 50])
         header = auth_header()
         url = f'{base_url}/artists/?ids={id_list_string}'
-        response = requests.get(url, headers=header, proxies=proxies)
+        while True:
+            try:
+                response = requests.get(url, headers=header, proxies=proxies)
+            except Exception as e:
+                print(f'artist_info -> get: {e}')
+                # sleep(60)
+            else:
+                break
         for artist in response.json()['artists']:
             artist_id = artist['id']
             name = artist['name']
