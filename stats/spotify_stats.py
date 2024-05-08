@@ -7,7 +7,7 @@ from typing import List, Dict, Tuple
 
 import requests
 
-from init import proxies, artist_page, base_url, cur, con
+from SpotifyInit import proxies, artist_page, base_url, cur, con
 from dotenv import load_dotenv
 
 
