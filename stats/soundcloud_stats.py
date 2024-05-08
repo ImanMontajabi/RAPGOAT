@@ -1,4 +1,5 @@
 from time import sleep
+import re
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -18,8 +19,9 @@ Hiphopologist = 'https://soundcloud.com/hiphopologistsoroush/tracks'
 Johar_records = 'https://soundcloud.com/johar-records/tracks'
 Reza_Pishro = 'https://soundcloud.com/reza-pishro-rail/tracks'
 Bahram = 'https://soundcloud.com/bahramnouraei/tracks'
+CatchyBeatz = 'https://soundcloud.com/tiktaak-sr/tracks'
 
-driver.get(Bahram)
+driver.get(CatchyBeatz)
 '''-----------------------------------------------------------------------'''
 sound_body = './/div[contains(@class, "sound__body")]'
 '''-----------------------------------------------------------------------'''
@@ -91,16 +93,20 @@ for sound in sound_body:
         link = None
 
     try:
-        cover = sound.find_element(
+        cover_style = sound.find_element(
             By.XPATH,
-            value=cover_link).get_attribute('style')\
-            .split('url("')[1].split('")')[0]
+            value=cover_link).get_attribute('style')
+        full_size_cover = re.sub(
+            pattern=r'(https://[^"]+)-t200x200(\.jpg")',
+            repl=r'\1-t500x500\2',
+            string=cover_style)
+
     except exceptions.NoSuchElementException:
-        cover = None
+        full_size_cover = None
     print(f'{n} {title} | plays: {play} |'
           f' likes: {like} | comments: {comment}'
           f' | uploaded at: {upload_date_time}'
-          f' | link: {link} | cover: {cover}')
+          f' | link: {link} | cover: {full_size_cover}')
     n += 1
 
 
