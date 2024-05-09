@@ -23,13 +23,15 @@ def scroll_down(url: str) -> None:
             print(e)
             driver.quit()
             # sleep(30)
+            driver.get(url + '/tracks')
         else:
             break
+
     while True:
         '''scroll down 1000 pixels'''
         driver.execute_script(js_scroll_down_command)
         '''wait for page to load'''
-        sleep(3)
+        sleep(4)
         '''check if at bottom of page'''
         if driver.execute_script(js_end_of_page_condition):
             break
@@ -89,130 +91,158 @@ def init_tables():
         ''')
 
 
+def page_information(url: str) -> list[tuple]:
+    page_info_for_query: list[tuple] = []
+    page_name = driver.find_element(
+        By.XPATH, value=my_xpath['page_name'])
+    name = page_name.text
+    if name.endswith(' Verified'):
+        name = name.replace(' Verified', '')
+
+    artist_stats = driver.find_elements(
+        By.XPATH, value=my_xpath['page_stats'])
+    stats: list = []
+    for stat in artist_stats:
+        stats.extend(stat.get_attribute('title').split(' '))
+
+    followers_int = string_to_int(stats[0])
+    following_int = string_to_int(stats[3])
+    tracks_int = string_to_int(stats[5])
+
+    page_avatar = driver.find_element(
+        By.XPATH, value=my_xpath['page_avatar'])
+    avatar_url = page_avatar.find_element(
+        By.XPATH, value=my_xpath['avatar'])
+    avatar_style = avatar_url.get_attribute('style')
+    avatar_url = extract_hq_image_url(avatar_style)
+
+    page_info_for_query.append((
+        url, name, followers_int, following_int, tracks_int, avatar_url))
+    return page_info_for_query
+
+
+def save_page_information(page_info_for_query: [tuple]):
+    cur.executemany('''
+                    INSERT OR IGNORE INTO soundcloud_artist (
+                        page_url,
+                        page_name,
+                        followers,
+                        followings,
+                        tracks,
+                        avatar_url
+                    ) VALUES (?, ?, ?, ?, ?, ?)
+                ''', page_info_for_query)
+
+
+def tracks_information() -> list[tuple]:
+    tracks_info_for_query: list[tuple] = []
+    sound_body = driver.find_elements(
+        By.XPATH, value=my_xpath['sound_body'])
+    for sound in sound_body:
+        try:
+            title = sound.find_element(
+                By.XPATH, value=my_xpath['sound_title']).text
+        except exceptions.NoSuchElementException:
+            title = None
+        try:
+            play_list = sound.find_element(
+                By.XPATH, value=my_xpath['sound_play_list'])
+            play = play_list.find_element(
+                By.XPATH, value=my_xpath['s_play']).text.split(' ')[0]
+            play_int = string_to_int(play)
+        except exceptions.NoSuchElementException:
+            play_int = None
+        try:
+            like = sound.find_element(
+                By.XPATH, value=my_xpath['s_like']).text
+            like_int = string_to_int(like)
+        except exceptions.NoSuchElementException:
+            like_int = None
+        try:
+            comment = sound.find_element(
+                By.XPATH, value=my_xpath['s_comment']).text.split('\n')[1]
+            comment_int = string_to_int(comment)
+        except exceptions.NoSuchElementException:
+            comment_int = None
+        try:
+            upload_date_time = sound.find_element(
+                By.XPATH,
+                value=my_xpath['upload_date']).get_attribute('datetime')
+        except exceptions.NoSuchElementException:
+            upload_date_time = None
+        try:
+            link = sound.find_element(
+                By.XPATH, value=my_xpath['s_link']).get_attribute('href')
+        except exceptions.NoSuchElementException:
+            link = None
+        try:
+            cover_style = sound.find_element(
+                By.XPATH,
+                value=my_xpath['cover_link']).get_attribute('style')
+            cover_url = extract_hq_image_url(cover_style)
+
+        except exceptions.NoSuchElementException:
+            cover_url = None
+        try:
+            page_name = driver.find_element(
+                By.XPATH, value=my_xpath['page_name'])
+            name = page_name.text
+            if name.endswith(' Verified'):
+                name = name.replace(' Verified', '')
+        except exceptions.NoSuchElementException:
+            name = None
+
+        tracks_info_for_query.append((
+            link, name, title, play_int, like_int, comment_int,
+            upload_date_time, cover_url))
+
+        return tracks_info_for_query
+
+
+def save_tracks_information(tracks_info_for_query: list[tuple]):
+    cur.executemany('''
+                        INSERT OR IGNORE INTO soundcloud_tracks (
+                            track_url,
+                            page_name,
+                            track_title,
+                            plays,
+                            likes,
+                            comments,
+                            upload_datetime,
+                            cover_url
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                ''', tracks_info_for_query)
+
+
 def main():
     init_tables()
 
     for url in page_urls:
-        tracks_info_for_query: list[tuple] = []
-        page_info_for_query: list[tuple] = []
+        tracks_info_for_query: list[tuple]
+        page_info_for_query: list[tuple]
 
         '''this initializes driver, scroll down to bottom of the page
         and ensures that the page loads as expected'''
-        while True:
-            try:
-                scroll_down(url)
-            except Exception as e:
-                print(e)
-                # sleep(30)
-                scroll_down(url)
-            else:
-                break
+        try:
+            scroll_down(url)
+        except Exception as e:
+            print(e)
+            continue
+            # sleep(30)
 
         '''This extracts page information such as name, followers, ... '''
-        page_name = driver.find_element(
-            By.XPATH, value=my_xpath['page_name'])
-        name = page_name.text
-        if name.endswith(' Verified'):
-            name = name.replace(' Verified', '')
-
-        artist_stats = driver.find_elements(
-            By.XPATH, value=my_xpath['page_stats'])
-        stats: list = []
-        for stat in artist_stats:
-            stats.extend(stat.get_attribute('title').split(' '))
-
-        followers_int = string_to_int(stats[0])
-        following_int = string_to_int(stats[3])
-        tracks_int = string_to_int(stats[5])
-
-        page_avatar = driver.find_element(
-            By.XPATH, value=my_xpath['page_avatar'])
-        avatar_url = page_avatar.find_element(
-            By.XPATH, value=my_xpath['avatar'])
-        avatar_style = avatar_url.get_attribute('style')
-        avatar_url = extract_hq_image_url(avatar_style)
-
-        page_info_for_query.append((
-            url, name, followers_int, following_int, tracks_int, avatar_url))
+        page_info_for_query = page_information(url)
 
         '''This extracts tracks infos from soundcloud page'''
-        sound_body = driver.find_elements(
-            By.XPATH, value=my_xpath['sound_body'])
-        for sound in sound_body:
-            try:
-                title = sound.find_element(
-                    By.XPATH, value=my_xpath['sound_title']).text
-            except exceptions.NoSuchElementException:
-                title = None
-            try:
-                play_list = sound.find_element(
-                    By.XPATH, value=my_xpath['sound_play_list'])
-                play = play_list.find_element(
-                    By.XPATH, value=my_xpath['s_play']).text.split(' ')[0]
-                play_int = string_to_int(play)
-            except exceptions.NoSuchElementException:
-                play_int = None
-            try:
-                like = sound.find_element(
-                    By.XPATH, value=my_xpath['s_like']).text
-                like_int = string_to_int(like)
-            except exceptions.NoSuchElementException:
-                like_int = None
-            try:
-                comment = sound.find_element(
-                    By.XPATH, value=my_xpath['s_comment']).text.split('\n')[1]
-                comment_int = string_to_int(comment)
-            except exceptions.NoSuchElementException:
-                comment_int = None
-            try:
-                upload_date_time = sound.find_element(
-                    By.XPATH,
-                    value=my_xpath['upload_date']).get_attribute('datetime')
-            except exceptions.NoSuchElementException:
-                upload_date_time = None
-            try:
-                link = sound.find_element(
-                    By.XPATH, value=my_xpath['s_link']).get_attribute('href')
-            except exceptions.NoSuchElementException:
-                link = None
-            try:
-                cover_style = sound.find_element(
-                    By.XPATH,
-                    value=my_xpath['cover_link']).get_attribute('style')
-                cover_url = extract_hq_image_url(cover_style)
+        tracks_info_for_query = tracks_information()
 
-            except exceptions.NoSuchElementException:
-                cover_url = None
+        '''This function saves page data into soundcloud_artist table'''
+        save_page_information(page_info_for_query)
 
-            tracks_info_for_query.append((
-                link, name, title, play_int, like_int, comment_int,
-                upload_date_time, cover_url))
+        '''This function saves tracks data into soundcloud_tracks table'''
+        save_tracks_information(tracks_info_for_query)
 
-        cur.executemany('''
-                INSERT OR IGNORE INTO soundcloud_tracks (
-                    track_url,
-                    page_name,
-                    track_title,
-                    plays,
-                    likes,
-                    comments,
-                    upload_datetime,
-                    cover_url
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        ''', tracks_info_for_query)
-
-        cur.executemany('''
-            INSERT OR IGNORE INTO soundcloud_artist (
-                page_url,
-                page_name,
-                followers,
-                followings,
-                tracks,
-                avatar_url
-            ) VALUES (?, ?, ?, ?, ?, ?)
-        ''', page_info_for_query)
         con.commit()
-
     driver.quit()
     con.close()
 

@@ -99,7 +99,7 @@ artist_page: dict[str, str] = {
     'Canis': '6OPdGHW0QD6WknWX2tlzJm',
     'Beatbynajwa': '3I36QJUwnZzyxnqIQJkZcy',
     'Shemrooni': '4zuyCgnXCf6stVpIZAVhPn',
-    'MezRab': '0VBIFNvmge2DOar9E0gPBO',
+    "Mez'Rab": '0VBIFNvmge2DOar9E0gPBO',
     'Rokh': '2CBqYRmN5GKCtfnV4oH472',
     'Kaboos': '7wiZdnWzfr67rEe0NMEYTA',
     'Aein': '60b0BYerc0Rg4zgmWqHD9J',
@@ -146,7 +146,9 @@ artist_page: dict[str, str] = {
     'Hesam Steps': '3udOiFU3fqyDV2OihyaaYh',
     'Armin Zareei': '4jUdmo1MCAWV2zEGc1uoEK',
     'Lena': '7zH1d81QnIKfrZ71VCnncv',
-    'Dariu$h': '3HQedAYh7K5YW4MD108gP3'
+    'Dariu$h': '3HQedAYh7K5YW4MD108gP3',
+    'Ashna': '5Z0flsrz7Q8xJ2arSoYetY',
+    'Toomaj': '5mBmrpiMC2lzIWCG0MDOYx',
 }
 
 artist_ids = ','.join(list(artist_page.values()))
