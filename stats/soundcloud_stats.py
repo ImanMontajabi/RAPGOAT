@@ -22,7 +22,7 @@ def scroll_down(url: str) -> None:
         except Exception as e:
             print(e)
             driver.quit()
-            # sleep(30)
+            sleep(5)
             driver.get(url + '/tracks')
         else:
             break
@@ -93,28 +93,42 @@ def init_tables():
 
 def page_information(url: str) -> list[tuple]:
     page_info_for_query: list[tuple] = []
-    page_name = driver.find_element(
-        By.XPATH, value=my_xpath['page_name'])
-    name = page_name.text
-    if name.endswith(' Verified'):
-        name = name.replace(' Verified', '')
+    try:
+        page_name = driver.find_element(
+            By.XPATH, value=my_xpath['page_name'])
+        name = page_name.text
+        if name.endswith(' Verified'):
+            name = name.replace(' Verified', '')
+    except exceptions.NoSuchElementException as e:
+        print(e)
+        name = None
 
-    artist_stats = driver.find_elements(
-        By.XPATH, value=my_xpath['page_stats'])
-    stats: list = []
-    for stat in artist_stats:
-        stats.extend(stat.get_attribute('title').split(' '))
+    try:
+        artist_stats = driver.find_elements(
+            By.XPATH, value=my_xpath['page_stats'])
+        stats: list = []
+        for stat in artist_stats:
+            stats.extend(stat.get_attribute('title').split(' '))
 
-    followers_int = string_to_int(stats[0])
-    following_int = string_to_int(stats[3])
-    tracks_int = string_to_int(stats[5])
+        followers_int = string_to_int(stats[0])
+        following_int = string_to_int(stats[3])
+        tracks_int = string_to_int(stats[5])
+    except Exception as e:
+        print(e)
+        followers_int = None
+        following_int = None
+        tracks_int = None
 
-    page_avatar = driver.find_element(
-        By.XPATH, value=my_xpath['page_avatar'])
-    avatar_url = page_avatar.find_element(
-        By.XPATH, value=my_xpath['avatar'])
-    avatar_style = avatar_url.get_attribute('style')
-    avatar_url = extract_hq_image_url(avatar_style)
+    try:
+        page_avatar = driver.find_element(
+            By.XPATH, value=my_xpath['page_avatar'])
+        avatar_url = page_avatar.find_element(
+            By.XPATH, value=my_xpath['avatar'])
+        avatar_style = avatar_url.get_attribute('style')
+        avatar_url = extract_hq_image_url(avatar_style)
+    except exceptions.NoSuchElementException as e:
+        print(e)
+        avatar_url = None
 
     page_info_for_query.append((
         url, name, followers_int, following_int, tracks_int, avatar_url))
@@ -123,15 +137,15 @@ def page_information(url: str) -> list[tuple]:
 
 def save_page_information(page_info_for_query: [tuple]):
     cur.executemany('''
-                    INSERT OR REPLACE INTO soundcloud_artist (
-                        page_url,
-                        page_name,
-                        followers,
-                        followings,
-                        tracks,
-                        avatar_url
-                    ) VALUES (?, ?, ?, ?, ?, ?)
-                ''', page_info_for_query)
+        INSERT OR REPLACE INTO soundcloud_artist (
+            page_url,
+            page_name,
+            followers,
+            followings,
+            tracks,
+            avatar_url
+        ) VALUES (?, ?, ?, ?, ?, ?)
+    ''', page_info_for_query)
 
 
 def tracks_information() -> list[tuple]:
@@ -189,29 +203,30 @@ def tracks_information() -> list[tuple]:
             name = page_name.text
             if name.endswith(' Verified'):
                 name = name.replace(' Verified', '')
-        except exceptions.NoSuchElementException:
+        except exceptions.NoSuchElementException as e:
+            print(e)
             name = None
 
         tracks_info_for_query.append((
             link, name, title, play_int, like_int, comment_int,
             upload_date_time, cover_url))
 
-        return tracks_info_for_query
+    return tracks_info_for_query
 
 
 def save_tracks_information(tracks_info_for_query: list[tuple]):
     cur.executemany('''
-                        INSERT OR REPLACE INTO soundcloud_tracks (
-                            track_url,
-                            page_name,
-                            track_title,
-                            plays,
-                            likes,
-                            comments,
-                            upload_datetime,
-                            cover_url
-                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                ''', tracks_info_for_query)
+        INSERT OR REPLACE INTO soundcloud_tracks (
+                track_url,
+                page_name,
+                track_title,
+                plays,
+                likes,
+                comments,
+                upload_datetime,
+                cover_url
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        ''', tracks_info_for_query)
 
 
 def main():
@@ -243,6 +258,8 @@ def main():
         save_tracks_information(tracks_info_for_query)
 
         con.commit()
+        sleep(5)
+
     driver.quit()
     con.close()
 
