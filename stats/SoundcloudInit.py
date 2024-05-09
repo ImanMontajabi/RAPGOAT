@@ -6,9 +6,9 @@ from selenium import webdriver
 url_pattern = r'https://[^"]+'
 url_pattern_size = r'(https://[^"]+)-t\d+x\d+(\.jpg)'
 
-# options = webdriver.FirefoxOptions()
-# options.add_argument('--headless')
-driver = webdriver.Firefox()
+options = webdriver.FirefoxOptions()
+options.add_argument('--headless')
+driver = webdriver.Firefox(options=options)
 
 artist_page: dict[str, str] = {
     'Mahdyar': 'https://soundcloud.com/mahdyar',
