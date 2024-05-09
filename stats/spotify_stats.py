@@ -3,7 +3,6 @@ import json
 import base64
 # from time import sleep
 from random import shuffle
-from typing import List, Dict, Tuple
 
 import requests
 
@@ -16,7 +15,7 @@ CLIENT_ID = os.getenv('CLIENT_ID')
 CLIENT_SECRET = os.getenv('CLIENT_SECRET')
 
 
-def auth_header() -> Dict[str, str]:
+def auth_header() -> dict[str, str]:
     auth_string = f'{CLIENT_ID}:{CLIENT_SECRET}'
     auth_bytes = auth_string.encode('utf-8')
     auth_base64 = str(base64.b64encode(auth_bytes), 'utf-8')
@@ -44,7 +43,7 @@ def auth_header() -> Dict[str, str]:
     return {'Authorization': f'Bearer {token}'}
 
 
-def albums_details(bunch: List[str]) -> None:
+def albums_details(bunch: list[str]) -> None:
     # album_id is final output of this function
     cur.execute('''
         CREATE TABLE IF NOT EXISTS albums_details (
@@ -60,7 +59,7 @@ def albums_details(bunch: List[str]) -> None:
     ''')
 
     # this section finds all ids of albums of artists with artist's id
-    resp_json: List[Dict] = []
+    resp_json: list[dict] = []
 
     for artist_id in bunch:
         header = auth_header()
@@ -94,7 +93,7 @@ def albums_details(bunch: List[str]) -> None:
             resp_json.append(response.json())
 
     # this loop inserts all albums ids into album_id table
-    id_list_for_query: List[Tuple] = []
+    id_list_for_query: list[tuple] = []
     for album in resp_json:
         for i in range(0, len(album['items'])):
             album_id = album['items'][i]['id']
@@ -103,8 +102,8 @@ def albums_details(bunch: List[str]) -> None:
             release_date = album['items'][i]['release_date']
             album_type = album['items'][i]['album_type']
             cover = album['items'][i]['images'][0]['url']
-            artist_names: List['str'] = []
-            artist_ids: List['str'] = []
+            artist_names: list['str'] = []
+            artist_ids: list['str'] = []
             for artist in album['items'][i]['artists']:
                 artist_names.append(artist['name'])
                 artist_ids.append(artist['id'])
@@ -135,7 +134,7 @@ def albums_details(bunch: List[str]) -> None:
     con.commit()
 
 
-def all_tracks(bunch: List[str]) -> None:
+def all_tracks(bunch: list[str]) -> None:
     # creating table tracks_id to save track_id tracks_name and release_date
     cur.execute('''
         CREATE TABLE IF NOT EXISTS tracks_id (
@@ -145,8 +144,8 @@ def all_tracks(bunch: List[str]) -> None:
         )
     ''')
 
-    albums_json: List[Dict] = []
-    id_list_for_query: List[Tuple] = []
+    albums_json: list[dict] = []
+    id_list_for_query: list[tuple] = []
 
     for i in range(0, len(bunch), 20):
         album_id_20_string = ','.join(bunch[i: i + 20])
@@ -191,7 +190,7 @@ def all_tracks(bunch: List[str]) -> None:
     con.commit()
 
 
-def track_details(bunch: List[str]) -> None:
+def track_details(bunch: list[str]) -> None:
     cur.execute('''
         CREATE TABLE IF NOT EXISTS track_details (
             track_id TEXT PRIMARY KEY,
@@ -205,7 +204,7 @@ def track_details(bunch: List[str]) -> None:
         )
     ''')
 
-    tracks_json: List[Dict] = []
+    tracks_json: list[dict] = []
 
     for i in range(0, len(bunch), 50):
         track_id_string: str = ','.join(bunch[i: i + 50])
@@ -221,7 +220,7 @@ def track_details(bunch: List[str]) -> None:
                 break
         tracks_json.append(response.json()['tracks'])
 
-    track_details_for_query: List[Tuple] = []
+    track_details_for_query: list[tuple] = []
     for fifty_track in tracks_json:
         for track in fifty_track:
             track_id = track['id']
@@ -230,8 +229,8 @@ def track_details(bunch: List[str]) -> None:
             duration_ms = track['duration_ms']
             popularity = track['popularity']
             cover_album = track['album']['images'][0]['url']
-            artists_names: List[str] = []
-            artists_ids: List[str] = []
+            artists_names: list[str] = []
+            artists_ids: list[str] = []
             for artist_name in track['artists']:
                 artists_names.append(artist_name['name'])
                 artists_ids.append(artist_name['id'])
@@ -262,7 +261,7 @@ def track_details(bunch: List[str]) -> None:
     con.commit()
 
 
-def artist_info(bunch: List[str]) -> None:
+def artist_info(bunch: list[str]) -> None:
     cur.execute('''
         CREATE TABLE IF NOT EXISTS artist_info (
             artist_id TEXT PRIMARY KEY,
@@ -273,7 +272,7 @@ def artist_info(bunch: List[str]) -> None:
         )
     ''')
 
-    artist_info_for_query: List[Tuple] = []
+    artist_info_for_query: list[tuple] = []
 
     for i in range(0,  len(bunch), 50):
         id_list_string: str = ','.join(bunch[i: i + 50])
@@ -311,7 +310,7 @@ def artist_info(bunch: List[str]) -> None:
 def main():
     while True:
         try:
-            all_artists_ids: List[str] = list(artist_page.values())
+            all_artists_ids: list[str] = list(artist_page.values())
             shuffle(all_artists_ids)
             chunk_artist: int = 5
             len_artist: int = len(all_artists_ids)
@@ -329,7 +328,7 @@ def main():
 
     while True:
         try:
-            all_albums_ids: List[str] = []
+            all_albums_ids: list[str] = []
             chunk_album: int = 100
             for row in cur.execute('''SELECT * FROM albums_details'''):
                 all_albums_ids.append(row[0])
@@ -349,7 +348,7 @@ def main():
 
     while True:
         try:
-            all_tracks_ids: List[str] = []
+            all_tracks_ids: list[str] = []
             chunk_track: int = 200
             for row in cur.execute('''SELECT * FROM tracks_id'''):
                 all_tracks_ids.append(row[0])
@@ -368,7 +367,7 @@ def main():
 
     while True:
         try:
-            all_artists_info_ids: List[str] = list(artist_page.values())
+            all_artists_info_ids: list[str] = list(artist_page.values())
             shuffle(all_artists_info_ids)
             chunk_artist: int = 200
             len_artist: int = len(all_artists_info_ids)
