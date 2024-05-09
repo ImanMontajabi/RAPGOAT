@@ -121,7 +121,7 @@ def albums_details(bunch: list[str]) -> None:
             )
 
     cur.executemany('''
-        INSERT OR IGNORE INTO albums_details (
+        INSERT OR REPLACE INTO albums_details (
             album_id, 
             album_name, 
             total_tracks, 
@@ -185,7 +185,7 @@ def all_tracks(bunch: list[str]) -> None:
                 id_list_for_query.append((track_id, name, release_date))
 
     cur.executemany('''
-        INSERT OR IGNORE INTO tracks_id (track_id, track_name, release_date)
+        INSERT OR REPLACE INTO tracks_id (track_id, track_name, release_date)
         VALUES (?, ?, ?)''', id_list_for_query)
     con.commit()
 
@@ -248,7 +248,7 @@ def track_details(bunch: list[str]) -> None:
             )
 
     cur.executemany('''
-        INSERT OR IGNORE INTO track_details (
+        INSERT OR REPLACE INTO track_details (
             track_id,
             track_name,
             release_date,
@@ -297,7 +297,7 @@ def artist_info(bunch: list[str]) -> None:
             )
 
     cur.executemany('''
-        INSERT OR IGNORE INTO artist_info (
+        INSERT OR REPLACE INTO artist_info (
             artist_id, 
             name, 
             followers, 

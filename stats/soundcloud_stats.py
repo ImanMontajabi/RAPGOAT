@@ -123,7 +123,7 @@ def page_information(url: str) -> list[tuple]:
 
 def save_page_information(page_info_for_query: [tuple]):
     cur.executemany('''
-                    INSERT OR IGNORE INTO soundcloud_artist (
+                    INSERT OR REPLACE INTO soundcloud_artist (
                         page_url,
                         page_name,
                         followers,
@@ -201,7 +201,7 @@ def tracks_information() -> list[tuple]:
 
 def save_tracks_information(tracks_info_for_query: list[tuple]):
     cur.executemany('''
-                        INSERT OR IGNORE INTO soundcloud_tracks (
+                        INSERT OR REPLACE INTO soundcloud_tracks (
                             track_url,
                             page_name,
                             track_title,
