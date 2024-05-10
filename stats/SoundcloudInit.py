@@ -11,51 +11,7 @@ options.add_argument('--headless')
 driver = webdriver.Firefox(options=options)
 
 artist_page: dict[str, str] = {
-    '1': 'https://soundcloud.com/johar-records',
-    '2': 'https://soundcloud.com/mer-zhak',
-    '3': 'https://soundcloud.com/mellistream',
-    '4': 'https://soundcloud.com/zohaofficial',
-    '5': 'https://soundcloud.com/gdaal',
-    '6': 'https://soundcloud.com/sinasae',
-    '7': 'https://soundcloud.com/ali-maslak',
-}
-
-page_urls: list[str] = list(artist_page.values())
-shuffle(page_urls)
-
-
-my_xpath: dict[str, str] = {
-    'sound_body': './/div[contains(@class, "sound__body")]',
-    'sound_title': './/a[contains(@class, "soundTitle__title")]',
-    'sound_play_list': './/span[contains(@class, "sc-ministats-plays")]',
-    's_play': './/span[contains(@class, "sc-visuallyhidden")]',
-    's_like': './/button[contains(@class, "sc-button-like")]',
-    's_comment': './/a[contains(@class, "sc-ministats-comments")]',
-    'upload_date': './/time[contains(@class, "relativeTime")]',
-    's_link': './/a[contains(@class, "sc-link-primary")]',
-    'cover_link': './/span[contains(@class, "sc-artwork")]',
-    'page_stats': './/a[contains(@class, "infoStats__statLink")]',
-    'page_name': './/h2[contains(@class, "profileHeaderInfo__userName")]',
-    'page_avatar': './/div[contains(@class, "profileHeaderInfo__avatar")]',
-    'avatar': './/span[contains(@class, "sc-artwork")]'
-}
-
-js_end_of_page_condition = (
-    'return window.innerHeight '
-    '+ window.pageYOffset '
-    '>= document.body.offsetHeight')
-js_scroll_down_command = 'window.scrollBy(0, 1000)'
-
-con = sqlite3.connect('rapgoat.db')
-cur = con.cursor()
-
-
-
-
-
-
-'''
-'Mahdyar': 'https://soundcloud.com/mahdyar',
+    'Mahdyar': 'https://soundcloud.com/mahdyar',
     'Dorcci': 'https://soundcloud.com/dorcci',
     'Amir Tataloo': 'https://soundcloud.com/amirtataloo',
     'Hiphopologist': 'https://soundcloud.com/hiphopologistsoroush',
@@ -169,5 +125,34 @@ cur = con.cursor()
     'Toomaj': 'https://soundcloud.com/toomajsalehi',
     'Amin Tijay': 'https://soundcloud.com/amintijayy',
     'Armin Robber': 'https://soundcloud.com/arminrobber',
-    
-'''
+    'Majhool': 'https://soundcloud.com/officialmajhool',
+}
+
+page_urls: list[str] = list(artist_page.values())
+shuffle(page_urls)
+
+
+my_xpath: dict[str, str] = {
+    'sound_body': './/div[contains(@class, "sound__body")]',
+    'sound_title': './/a[contains(@class, "soundTitle__title")]',
+    'sound_play_list': './/span[contains(@class, "sc-ministats-plays")]',
+    's_play': './/span[contains(@class, "sc-visuallyhidden")]',
+    's_like': './/button[contains(@class, "sc-button-like")]',
+    's_comment': './/a[contains(@class, "sc-ministats-comments")]',
+    'upload_date': './/time[contains(@class, "relativeTime")]',
+    's_link': './/a[contains(@class, "sc-link-primary")]',
+    'cover_link': './/span[contains(@class, "sc-artwork")]',
+    'page_stats': './/a[contains(@class, "infoStats__statLink")]',
+    'page_name': './/h2[contains(@class, "profileHeaderInfo__userName")]',
+    'page_avatar': './/div[contains(@class, "profileHeaderInfo__avatar")]',
+    'avatar': './/span[contains(@class, "sc-artwork")]'
+}
+
+js_end_of_page_condition = (
+    'return window.innerHeight '
+    '+ window.pageYOffset '
+    '>= document.body.offsetHeight')
+js_scroll_down_command = 'window.scrollBy(0, 1000)'
+
+con = sqlite3.connect('rapgoat.db')
+cur = con.cursor()
