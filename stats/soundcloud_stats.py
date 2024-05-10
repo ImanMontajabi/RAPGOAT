@@ -15,18 +15,7 @@ from SoundcloudInit import (
     cur)
 
 
-def scroll_down(url: str) -> None:
-    while True:
-        try:
-            driver.get(url + '/tracks')
-        except Exception as e:
-            print(e)
-            driver.quit()
-            sleep(5)
-            driver.get(url + '/tracks')
-        else:
-            break
-
+def scroll_down():
     while True:
         '''scroll down 1000 pixels'''
         driver.execute_script(js_scroll_down_command)
@@ -238,12 +227,24 @@ def main():
 
         '''this initializes driver, scroll down to bottom of the page
         and ensures that the page loads as expected'''
-        try:
-            scroll_down(url)
-        except Exception as e:
-            print(e)
-            continue
-            # sleep(30)
+        while True:
+            try:
+                driver.get(url + '/tracks')
+            except Exception as e:
+                print(e)
+            else:
+                break
+            sleep(5)
+
+        while True:
+            try:
+                scroll_down()
+            except Exception as e:
+                print(e)
+                driver.get(url + '/tracks')
+            else:
+                break
+            sleep(5)
 
         '''This extracts page information such as name, followers, ... '''
         page_info_for_query = page_information(url)
