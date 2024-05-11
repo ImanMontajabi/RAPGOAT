@@ -8,8 +8,10 @@ url_pattern_size = r'(https://[^"]+)-t\d+x\d+(\.jpg)'
 
 options = webdriver.FirefoxOptions()
 options.add_argument('--headless')
-driver = webdriver.Firefox(options=options)
+driver = webdriver.Firefox()
 driver.set_page_load_timeout(200)
+driver.implicitly_wait(30)
+
 
 artist_page: dict[str, str] = {
     'Mahdyar': 'https://soundcloud.com/mahdyar',
@@ -146,14 +148,9 @@ my_xpath: dict[str, str] = {
     'page_stats': './/a[contains(@class, "infoStats__statLink")]',
     'page_name': './/h2[contains(@class, "profileHeaderInfo__userName")]',
     'page_avatar': './/div[contains(@class, "profileHeaderInfo__avatar")]',
-    'avatar': './/span[contains(@class, "sc-artwork")]'
+    'avatar': './/span[contains(@class, "sc-artwork")]',
+    'end_of_page': './/div[contains(@class, "paging-eof sc-border-light-top")]'
 }
-
-js_end_of_page_condition = (
-    'return window.innerHeight '
-    '+ window.pageYOffset '
-    '>= document.body.offsetHeight')
-js_scroll_down_command = 'window.scrollBy(0, 1000)'
 
 con = sqlite3.connect('rapgoat.db')
 cur = con.cursor()

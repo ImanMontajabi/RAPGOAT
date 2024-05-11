@@ -3,12 +3,13 @@ import re
 
 from selenium.webdriver.common.by import By
 from selenium.common import exceptions
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as ec
+from selenium.common.exceptions import TimeoutException
 
 from SoundcloudInit import (
     driver,
     my_xpath,
-    js_end_of_page_condition,
-    js_scroll_down_command,
     url_pattern,
     page_urls,
     con,
@@ -16,14 +17,27 @@ from SoundcloudInit import (
 
 
 def scroll_down():
+    last_height = driver.execute_script("return document.body.scrollHeight")
     while True:
-        '''scroll down 1000 pixels'''
-        driver.execute_script(js_scroll_down_command)
-        '''wait for page to load'''
+        driver.execute_script(
+            "window.scrollTo(0, document.body.scrollHeight);")
         sleep(4)
-        '''check if at bottom of page'''
-        if driver.execute_script(js_end_of_page_condition):
-            break
+        new_height = driver.execute_script("return document.body.scrollHeight")
+        if new_height == last_height:
+            try:
+                element_present = ec.presence_of_element_located(
+                    (By.XPATH,
+                     my_xpath['end_of_page']))
+                WebDriverWait(driver, timeout=10).until(element_present)
+                print("Reached end of the page.")
+            except TimeoutException:
+                print("Timeout couldn't reach end of the page")
+            else:
+                break
+        else:
+            last_height = new_height
+
+    # Check for the specific element by XPATH
 
 
 def extract_hq_image_url(style: str) -> str:
@@ -234,17 +248,16 @@ def main():
                 print(e)
             else:
                 break
-            sleep(5)
 
         while True:
             try:
                 scroll_down()
             except Exception as e:
-                print(e)
+                print(f'scroll down: {e}')
+                sleep(5)
                 driver.get(url + '/tracks')
             else:
                 break
-            sleep(5)
 
         '''This extracts page information such as name, followers, ... '''
         page_info_for_query = page_information(url)
@@ -259,7 +272,6 @@ def main():
         save_tracks_information(tracks_info_for_query)
 
         con.commit()
-        sleep(5)
 
     driver.quit()
     con.close()
