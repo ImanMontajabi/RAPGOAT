@@ -17,6 +17,9 @@ from SoundcloudInit import (
 
 
 def scroll_down():
+    last_height: int
+    new_height: int
+
     last_height = driver.execute_script("return document.body.scrollHeight")
     while True:
         driver.execute_script(
@@ -36,8 +39,6 @@ def scroll_down():
                 break
         else:
             last_height = new_height
-
-    # Check for the specific element by XPATH
 
 
 def extract_hq_image_url(style: str) -> str:
