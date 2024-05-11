@@ -12,7 +12,6 @@ driver = webdriver.Firefox(options=options)
 driver.set_page_load_timeout(200)
 driver.implicitly_wait(10)
 
-
 artist_page: dict[str, str] = {
     'Mahdyar': 'https://soundcloud.com/mahdyar',
     'Dorcci': 'https://soundcloud.com/dorcci',
@@ -133,7 +132,6 @@ artist_page: dict[str, str] = {
 
 page_urls: list[str] = list(artist_page.values())
 shuffle(page_urls)
-
 
 my_xpath: dict[str, str] = {
     'sound_body': './/div[contains(@class, "sound__body")]',
