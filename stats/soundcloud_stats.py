@@ -19,13 +19,11 @@ from SoundcloudInit import (
 def scroll_down(url: str) -> None:
     last_height: int
     new_height: int
-    last_height = driver.execute_script('return document.body.scrollHeight')
     while True:
-        driver.execute_script(
-            'window.scrollTo(0, document.body.scrollHeight);')
-        sleep(15)
-        new_height = driver.execute_script('return document.body.scrollHeight')
-        if new_height == last_height:
+        driver.execute_script('window.scrollBy(0, 200);')
+        sleep(5)
+        if driver.execute_script('return window.innerHeight + \
+        window.pageYOffset >= document.body.offsetHeight'):
             try:
                 element_present = ec.presence_of_element_located(
                     (By.XPATH,
@@ -39,8 +37,6 @@ def scroll_down(url: str) -> None:
                     break
             else:
                 break
-        else:
-            last_height = new_height
 
 
 def extract_hq_image_url(style: str) -> str:
@@ -54,24 +50,24 @@ def extract_hq_image_url(style: str) -> str:
 def string_to_int(number: str) -> None | int:
     if number.endswith('K'):
         number_digits = number.split('K')[0]
-        number_init = int(float(number_digits) * 1000)
+        number_int = int(float(number_digits) * 1000)
     elif number.endswith('M'):
         number_digits = number.split('M')[0]
-        number_init = int(float(number_digits) * 1000_000)
+        number_int = int(float(number_digits) * 1000_000)
     elif ',' in number:
         number_digits = ''.join(number.split(','))
-        number_init = int(number_digits)
+        number_int = int(number_digits)
     else:
         try:
-            number_init = int(number)
+            number_int = int(number)
         except Exception as e:
             print(e)
             return None
 
-    return number_init
+    return number_int
 
 
-def init_tables():
+def initialize_tables():
     cur.execute('''
             CREATE TABLE IF NOT EXISTS soundcloud_tracks (
                 track_url TEXT PRIMARY KEY,
@@ -258,7 +254,7 @@ def run_scroll_down(url: str) -> None:
 
 
 def main():
-    init_tables()
+    initialize_tables()
     tracks_info_for_query: list[tuple]
     page_info_for_query: list[tuple]
 
