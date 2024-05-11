@@ -16,25 +16,27 @@ from SoundcloudInit import (
     cur)
 
 
-def scroll_down():
+def scroll_down(url: str) -> None:
     last_height: int
     new_height: int
-
-    last_height = driver.execute_script("return document.body.scrollHeight")
+    last_height = driver.execute_script('return document.body.scrollHeight')
     while True:
         driver.execute_script(
-            "window.scrollTo(0, document.body.scrollHeight);")
-        sleep(4)
-        new_height = driver.execute_script("return document.body.scrollHeight")
+            'window.scrollTo(0, document.body.scrollHeight);')
+        sleep(15)
+        new_height = driver.execute_script('return document.body.scrollHeight')
         if new_height == last_height:
             try:
                 element_present = ec.presence_of_element_located(
                     (By.XPATH,
                      my_xpath['end_of_page']))
                 WebDriverWait(driver, timeout=10).until(element_present)
-                print("Reached end of the page.")
+                print(f'{url} reached end of the page.')
             except TimeoutException:
-                print("Timeout couldn't reach end of the page")
+                print(f"{url} couldn't reach end of the page")
+                get_url(url)
+                if run_scroll_down(url) is None:
+                    break
             else:
                 break
         else:
@@ -233,47 +235,47 @@ def save_tracks_information(tracks_info_for_query: list[tuple]):
         ''', tracks_info_for_query)
 
 
+def get_url(url: str) -> None:
+    while True:
+        try:
+            driver.get(url + '/tracks')
+        except Exception as e:
+            print(e)
+        else:
+            break
+
+
+def run_scroll_down(url: str) -> None:
+    while True:
+        try:
+            scroll_down(url)
+        except Exception as e:
+            print(f'scroll down: {e}')
+            sleep(5)
+            get_url(url)
+        else:
+            break
+
+
 def main():
     init_tables()
+    tracks_info_for_query: list[tuple]
+    page_info_for_query: list[tuple]
 
     for url in page_urls:
-        tracks_info_for_query: list[tuple]
-        page_info_for_query: list[tuple]
-
         '''this initializes driver, scroll down to bottom of the page
-        and ensures that the page loads as expected'''
-        while True:
-            try:
-                driver.get(url + '/tracks')
-            except Exception as e:
-                print(e)
-            else:
-                break
-
-        while True:
-            try:
-                scroll_down()
-            except Exception as e:
-                print(f'scroll down: {e}')
-                sleep(5)
-                driver.get(url + '/tracks')
-            else:
-                break
-
+            and ensures that the page loads as expected'''
+        get_url(url)
+        run_scroll_down(url)
         '''This extracts page information such as name, followers, ... '''
         page_info_for_query = page_information(url)
-
         '''This extracts tracks infos from soundcloud page'''
         tracks_info_for_query = tracks_information()
-
         '''This function saves page data into soundcloud_artist table'''
         save_page_information(page_info_for_query)
-
         '''This function saves tracks data into soundcloud_tracks table'''
         save_tracks_information(tracks_info_for_query)
-
         con.commit()
-
     driver.quit()
     con.close()
 

@@ -8,7 +8,7 @@ url_pattern_size = r'(https://[^"]+)-t\d+x\d+(\.jpg)'
 
 options = webdriver.FirefoxOptions()
 options.add_argument('--headless')
-driver = webdriver.Firefox(options=options)
+driver = webdriver.Firefox()
 driver.set_page_load_timeout(200)
 driver.implicitly_wait(30)
 
