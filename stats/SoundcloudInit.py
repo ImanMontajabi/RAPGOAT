@@ -1,3 +1,4 @@
+from sys import exit
 import sqlite3
 from random import shuffle
 
@@ -128,6 +129,7 @@ artist_page: dict[str, str] = {
     'Amin Tijay': 'https://soundcloud.com/amintijayy',
     'Armin Robber': 'https://soundcloud.com/arminrobber',
     'Majhool': 'https://soundcloud.com/officialmajhool',
+    'ArwinAf': 'https://soundcloud.com/arwinaff',
 }
 
 page_urls: list[str] = list(artist_page.values())
@@ -150,5 +152,9 @@ my_xpath: dict[str, str] = {
     'end_of_page': './/div[contains(@class, "paging-eof sc-border-light-top")]'
 }
 
-con = sqlite3.connect('rapgoat.db')
-cur = con.cursor()
+try:
+    con = sqlite3.connect('rapgoat.db')
+    cur = con.cursor()
+except sqlite3.DatabaseError as e:
+    print(f'Database connection was unsuccessful: {e}')
+    exit(1)

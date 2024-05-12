@@ -1,3 +1,4 @@
+from sys import exit
 import sqlite3
 
 base_url: str = 'https://api.spotify.com/v1'
@@ -153,5 +154,9 @@ artist_page: dict[str, str] = {
 
 artist_ids = ','.join(list(artist_page.values()))
 
-con = sqlite3.connect('rapgoat.db')
-cur = con.cursor()
+try:
+    con = sqlite3.connect('rapgoat.db')
+    cur = con.cursor()
+except sqlite3.DatabaseError as e:
+    print(f'Database connection was unsuccessful: {e}')
+    exit(1)
