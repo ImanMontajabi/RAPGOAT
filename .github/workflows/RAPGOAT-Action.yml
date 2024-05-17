@@ -30,8 +30,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run Selenium tests
+      - name: Run RAPGOAT Actions
         env:
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
           SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
         run: |
           python ./RAPGOAT/main.py

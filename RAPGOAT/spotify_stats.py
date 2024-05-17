@@ -7,12 +7,9 @@ from random import shuffle
 import requests
 
 from SpotifyInit import proxies, artist_page, base_url, cur, con
-from dotenv import load_dotenv
 
-
-load_dotenv()
-CLIENT_ID = os.getenv('CLIENT_ID')
-CLIENT_SECRET = os.getenv('CLIENT_SECRET')
+CLIENT_ID = os.environ['CLIENT_ID']
+CLIENT_SECRET = os.environ['CLIENT_SECRET']
 
 
 def auth_header() -> dict[str, str]:
