@@ -1,6 +1,6 @@
+# import spotify_stats
 import soundcloud_stats
-import spotify_stats
-import tables_to_csv
+# import tables_to_csv
 
 
 if __name__ == '__main__':
