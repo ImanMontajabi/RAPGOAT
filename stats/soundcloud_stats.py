@@ -1,6 +1,10 @@
-from time import sleep
 import re
+from time import sleep
+import sqlite3
+from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import as_completed
 
+from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common import exceptions
 from selenium.webdriver.support.ui import WebDriverWait
@@ -8,20 +12,18 @@ from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import TimeoutException
 
 from SoundcloudInit import (
-    driver,
     my_xpath,
     url_pattern,
-    page_urls,
-    con,
-    cur)
+    page_urls
+    )
 
 
-def scroll_down(url: str) -> None:
+def scroll_down(driver, url: str) -> None:
     last_height: int
     new_height: int
     while True:
-        driver.execute_script('window.scrollBy(0, 200);')
-        sleep(5)
+        driver.execute_script('window.scrollBy(0, 350);')
+        sleep(3)
         if driver.execute_script('return window.innerHeight + \
         window.pageYOffset >= document.body.offsetHeight'):
             try:
@@ -32,8 +34,8 @@ def scroll_down(url: str) -> None:
                 print(f'{url} reached end of the page.')
             except TimeoutException:
                 print(f"{url} couldn't reach end of the page")
-                get_url(url)
-                if run_scroll_down(url) is None:
+                get_url(driver, url)
+                if run_scroll_down(driver, url) is None:
                     break
             else:
                 break
@@ -67,7 +69,7 @@ def string_to_int(number: str) -> None | int:
     return number_int
 
 
-def initialize_tables():
+def initialize_tables(cur):
     cur.execute('''
             CREATE TABLE IF NOT EXISTS soundcloud_tracks (
                 track_url TEXT PRIMARY KEY,
@@ -93,7 +95,7 @@ def initialize_tables():
         ''')
 
 
-def page_information(url: str) -> list[tuple]:
+def page_information(driver, url: str) -> list[tuple]:
     page_info_for_query: list[tuple] = []
     try:
         page_name = driver.find_element(
@@ -137,7 +139,7 @@ def page_information(url: str) -> list[tuple]:
     return page_info_for_query
 
 
-def save_page_information(page_info_for_query: [tuple]):
+def save_page_information(cur, page_info_for_query: [tuple]):
     cur.executemany('''
         INSERT OR REPLACE INTO soundcloud_artist (
             page_url,
@@ -150,7 +152,7 @@ def save_page_information(page_info_for_query: [tuple]):
     ''', page_info_for_query)
 
 
-def tracks_information() -> list[tuple]:
+def tracks_information(driver) -> list[tuple]:
     tracks_info_for_query: list[tuple] = []
     sound_body = driver.find_elements(
         By.XPATH, value=my_xpath['sound_body'])
@@ -216,7 +218,7 @@ def tracks_information() -> list[tuple]:
     return tracks_info_for_query
 
 
-def save_tracks_information(tracks_info_for_query: list[tuple]):
+def save_tracks_information(cur, tracks_info_for_query: list[tuple]):
     cur.executemany('''
         INSERT OR REPLACE INTO soundcloud_tracks (
                 track_url,
@@ -231,7 +233,7 @@ def save_tracks_information(tracks_info_for_query: list[tuple]):
         ''', tracks_info_for_query)
 
 
-def get_url(url: str) -> None:
+def get_url(driver, url: str) -> None:
     while True:
         try:
             driver.get(url + '/tracks')
@@ -241,39 +243,69 @@ def get_url(url: str) -> None:
             break
 
 
-def run_scroll_down(url: str) -> None:
+def run_scroll_down(driver, url: str) -> None:
     while True:
         try:
-            scroll_down(url)
+            scroll_down(driver, url)
         except Exception as e:
             print(f'scroll down: {e}')
             sleep(5)
-            get_url(url)
+            get_url(driver, url)
         else:
             break
 
 
-def main():
-    initialize_tables()
+def scraper(url_chunk: list):
     tracks_info_for_query: list[tuple]
     page_info_for_query: list[tuple]
 
-    for url in page_urls:
+    options = webdriver.FirefoxOptions()
+    options.add_argument('--headless')
+    driver = webdriver.Firefox()
+    driver.set_page_load_timeout(200)
+    driver.implicitly_wait(10)
+
+    try:
+        con = sqlite3.connect('RapGoat.db')
+        cur = con.cursor()
+    except sqlite3.DatabaseError as e:
+        print(f'Database connection was unsuccessful: {e}')
+        exit(1)
+
+    initialize_tables(cur)
+
+    for url in url_chunk:
         '''this initializes driver, scroll down to bottom of the page
             and ensures that the page loads as expected'''
-        get_url(url)
-        run_scroll_down(url)
+        get_url(driver, url)
+        run_scroll_down(driver, url)
         '''This extracts page information such as name, followers, ... '''
-        page_info_for_query = page_information(url)
+        page_info_for_query = page_information(driver, url)
         '''This extracts tracks infos from soundcloud page'''
-        tracks_info_for_query = tracks_information()
+        tracks_info_for_query = tracks_information(driver)
         '''This function saves page data into soundcloud_artist table'''
-        save_page_information(page_info_for_query)
+        save_page_information(cur, page_info_for_query)
         '''This function saves tracks data into soundcloud_tracks table'''
-        save_tracks_information(tracks_info_for_query)
+        save_tracks_information(cur, tracks_info_for_query)
         con.commit()
     driver.quit()
     con.close()
+
+
+def main():
+    c_size = 20
+    chunked_list = [
+        page_urls[i: i + c_size] for i in range(0, len(page_urls), c_size)]
+    for url in range(0, len(page_urls), 23):
+        chunked_list.append(page_urls[0: 20])
+    with ThreadPoolExecutor(max_workers=4) as executor:
+        futures = [
+            executor.submit(scraper, url_chunk) for url_chunk in chunked_list]
+        for future in as_completed(futures):
+            try:
+                future.result()
+            except Exception as e:
+                print(e)
 
 
 if __name__ == '__main__':

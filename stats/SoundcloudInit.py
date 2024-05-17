@@ -1,17 +1,24 @@
-from sys import exit
-import sqlite3
 from random import shuffle
-
-from selenium import webdriver
 
 url_pattern = r'https://[^"]+'
 url_pattern_size = r'(https://[^"]+)-t\d+x\d+(\.jpg)'
 
-options = webdriver.FirefoxOptions()
-options.add_argument('--headless')
-driver = webdriver.Firefox(options=options)
-driver.set_page_load_timeout(200)
-driver.implicitly_wait(10)
+my_xpath: dict[str, str] = {
+    'sound_body': './/div[contains(@class, "sound__body")]',
+    'sound_title': './/a[contains(@class, "soundTitle__title")]',
+    'sound_play_list': './/span[contains(@class, "sc-ministats-plays")]',
+    's_play': './/span[contains(@class, "sc-visuallyhidden")]',
+    's_like': './/button[contains(@class, "sc-button-like")]',
+    's_comment': './/a[contains(@class, "sc-ministats-comments")]',
+    'upload_date': './/time[contains(@class, "relativeTime")]',
+    's_link': './/a[contains(@class, "sc-link-primary")]',
+    'cover_link': './/span[contains(@class, "sc-artwork")]',
+    'page_stats': './/a[contains(@class, "infoStats__statLink")]',
+    'page_name': './/h2[contains(@class, "profileHeaderInfo__userName")]',
+    'page_avatar': './/div[contains(@class, "profileHeaderInfo__avatar")]',
+    'avatar': './/span[contains(@class, "sc-artwork")]',
+    'end_of_page': './/div[contains(@class, "paging-eof sc-border-light-top")]'
+}
 
 artist_page: dict[str, str] = {
     'Mahdyar': 'https://soundcloud.com/mahdyar',
@@ -134,27 +141,3 @@ artist_page: dict[str, str] = {
 
 page_urls: list[str] = list(artist_page.values())
 shuffle(page_urls)
-
-my_xpath: dict[str, str] = {
-    'sound_body': './/div[contains(@class, "sound__body")]',
-    'sound_title': './/a[contains(@class, "soundTitle__title")]',
-    'sound_play_list': './/span[contains(@class, "sc-ministats-plays")]',
-    's_play': './/span[contains(@class, "sc-visuallyhidden")]',
-    's_like': './/button[contains(@class, "sc-button-like")]',
-    's_comment': './/a[contains(@class, "sc-ministats-comments")]',
-    'upload_date': './/time[contains(@class, "relativeTime")]',
-    's_link': './/a[contains(@class, "sc-link-primary")]',
-    'cover_link': './/span[contains(@class, "sc-artwork")]',
-    'page_stats': './/a[contains(@class, "infoStats__statLink")]',
-    'page_name': './/h2[contains(@class, "profileHeaderInfo__userName")]',
-    'page_avatar': './/div[contains(@class, "profileHeaderInfo__avatar")]',
-    'avatar': './/span[contains(@class, "sc-artwork")]',
-    'end_of_page': './/div[contains(@class, "paging-eof sc-border-light-top")]'
-}
-
-try:
-    con = sqlite3.connect('rapgoat.db')
-    cur = con.cursor()
-except sqlite3.DatabaseError as e:
-    print(f'Database connection was unsuccessful: {e}')
-    exit(1)
