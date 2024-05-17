@@ -16,7 +16,14 @@ except sqlite3.DatabaseError as e:
     exit(1)
 
 artist_page: dict[str, str] = {
-    'Fadaei': '5aWL79DpD45MzDMwCTZqsN',
+    'Ashna': '5Z0flsrz7Q8xJ2arSoYetY',
+}
+
+artist_ids = ','.join(list(artist_page.values()))
+
+
+'''
+'Fadaei': '5aWL79DpD45MzDMwCTZqsN',
     'Shapur': '6kbLiMnkNZHlvMpTv5iK9h',
     'Quf': '1LyLFeSDfvcGc8K6caTl05',
     'Hiphopologist': '45YMrIBH74j8e2wNlRSSdK',
@@ -155,8 +162,5 @@ artist_page: dict[str, str] = {
     'Armin Zareei': '4jUdmo1MCAWV2zEGc1uoEK',
     'Lena': '7zH1d81QnIKfrZ71VCnncv',
     'Dariu$h': '3HQedAYh7K5YW4MD108gP3',
-    'Ashna': '5Z0flsrz7Q8xJ2arSoYetY',
     'Toomaj': '5mBmrpiMC2lzIWCG0MDOYx',
-}
-
-artist_ids = ','.join(list(artist_page.values()))
+'''
