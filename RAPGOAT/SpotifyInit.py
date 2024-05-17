@@ -8,6 +8,13 @@ proxies: dict[str, str] = {
         'https': 'http://192.168.1.101:8080',
     }
 
+try:
+    con = sqlite3.connect('RapGoat.db')
+    cur = con.cursor()
+except sqlite3.DatabaseError as e:
+    print(f'Database connection was unsuccessful: {e}')
+    exit(1)
+
 artist_page: dict[str, str] = {
     'Fadaei': '5aWL79DpD45MzDMwCTZqsN',
     'Shapur': '6kbLiMnkNZHlvMpTv5iK9h',
@@ -153,10 +160,3 @@ artist_page: dict[str, str] = {
 }
 
 artist_ids = ','.join(list(artist_page.values()))
-
-try:
-    con = sqlite3.connect('rapgoat.db')
-    cur = con.cursor()
-except sqlite3.DatabaseError as e:
-    print(f'Database connection was unsuccessful: {e}')
-    exit(1)

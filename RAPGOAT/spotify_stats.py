@@ -28,6 +28,7 @@ def auth_header() -> dict[str, str]:
     data = {'grant_type': 'client_credentials'}
     while True:
         try:
+            # argument -> proxies=proxies for using this in Iran
             result = requests.post(
                 url,
                 headers=headers,
@@ -66,6 +67,7 @@ def albums_details(bunch: list[str]) -> None:
         url = f'{base_url}/artists/{artist_id}/albums?limit=50'
         while True:
             try:
+                # argument -> proxies=proxies for using this in Iran
                 response = requests.get(url, headers=header, proxies=proxies)
             except Exception as e:
                 print(f'albums_details -> get: {e}')
@@ -80,6 +82,7 @@ def albums_details(bunch: list[str]) -> None:
             header = auth_header()
             while True:
                 try:
+                    # argument -> proxies=proxies for using this in Iran
                     response = requests.get(
                         albums['next'],
                         headers=header,
@@ -153,6 +156,7 @@ def all_tracks(bunch: list[str]) -> None:
         url = f'{base_url}/albums?ids={album_id_20_string}'
         while True:
             try:
+                # argument -> proxies=proxies for using this in Iran
                 response = requests.get(url, headers=header, proxies=proxies)
             except Exception as e:
                 print(f'all_track -> get: {e}')
@@ -169,6 +173,7 @@ def all_tracks(bunch: list[str]) -> None:
                 header = auth_header()
                 while True:
                     try:
+                        # argument -> proxies=proxies for using this in Iran
                         next_response = requests.get(
                             next_tracks_url,
                             headers=header,
@@ -212,6 +217,7 @@ def track_details(bunch: list[str]) -> None:
         url = f'{base_url}/tracks?ids={track_id_string}'
         while True:
             try:
+                # argument -> proxies=proxies for using this in Iran
                 response = requests.get(url, headers=header, proxies=proxies)
             except Exception as e:
                 print(f'track_details -> get: {e}')
@@ -280,6 +286,7 @@ def artist_info(bunch: list[str]) -> None:
         url = f'{base_url}/artists/?ids={id_list_string}'
         while True:
             try:
+                # argument -> proxies=proxies for using this in Iran
                 response = requests.get(url, headers=header, proxies=proxies)
             except Exception as e:
                 print(f'artist_info -> get: {e}')

@@ -262,7 +262,7 @@ def scraper(url_chunk: list):
     options = webdriver.FirefoxOptions()
     options.add_argument('--headless')
     driver = webdriver.Firefox(options=options)
-    driver.set_page_load_timeout(200)
+    driver.set_page_load_timeout(300)
     driver.implicitly_wait(10)
 
     try:
@@ -298,7 +298,7 @@ def main():
         page_urls[i: i + c_size] for i in range(0, len(page_urls), c_size)]
     for url in range(0, len(page_urls), 23):
         chunked_list.append(page_urls[0: 20])
-    with ThreadPoolExecutor(max_workers=8) as executor:
+    with ThreadPoolExecutor(max_workers=7) as executor:
         futures = [
             executor.submit(scraper, url_chunk) for url_chunk in chunked_list]
         for future in as_completed(futures):

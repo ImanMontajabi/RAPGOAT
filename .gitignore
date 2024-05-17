@@ -2,3 +2,5 @@
 .venv/
 *.env
 RAPGOAT/__pycache__/
+RAPGOAT/*.db
+RAPGOAT/*.csv

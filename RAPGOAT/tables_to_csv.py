@@ -57,7 +57,3 @@ def main():
     check_database(db_dir)
     # create connection to database and fetch all data and calls save_to_csv()
     fetch_all(db_dir)
-
-
-if __name__ == '__main__':
-    main()
