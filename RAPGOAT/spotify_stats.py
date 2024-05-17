@@ -6,7 +6,7 @@ from random import shuffle
 
 import requests
 
-from SpotifyInit import proxies, artist_page, base_url, cur, con
+from SpotifyInit import artist_page, base_url, cur, con
 
 CLIENT_ID = os.environ['CLIENT_ID']
 CLIENT_SECRET = os.environ['CLIENT_SECRET']
@@ -29,8 +29,7 @@ def auth_header() -> dict[str, str]:
             result = requests.post(
                 url,
                 headers=headers,
-                data=data,
-                proxies=proxies)
+                data=data)
         except Exception as e:
             print(f'auth_header -> post: {e}')
             # sleep(60)
@@ -65,7 +64,7 @@ def albums_details(bunch: list[str]) -> None:
         while True:
             try:
                 # argument -> proxies=proxies for using this in Iran
-                response = requests.get(url, headers=header, proxies=proxies)
+                response = requests.get(url, headers=header)
             except Exception as e:
                 print(f'albums_details -> get: {e}')
                 # sleep(60)
@@ -82,9 +81,7 @@ def albums_details(bunch: list[str]) -> None:
                     # argument -> proxies=proxies for using this in Iran
                     response = requests.get(
                         albums['next'],
-                        headers=header,
-                        proxies=proxies
-                    )
+                        headers=header)
                 except Exception as e:
                     print(f'album_details -> get[next]: {e}')
                     # sleep(60)
@@ -154,7 +151,7 @@ def all_tracks(bunch: list[str]) -> None:
         while True:
             try:
                 # argument -> proxies=proxies for using this in Iran
-                response = requests.get(url, headers=header, proxies=proxies)
+                response = requests.get(url, headers=header)
             except Exception as e:
                 print(f'all_track -> get: {e}')
                 # sleep(60)
@@ -173,8 +170,7 @@ def all_tracks(bunch: list[str]) -> None:
                         # argument -> proxies=proxies for using this in Iran
                         next_response = requests.get(
                             next_tracks_url,
-                            headers=header,
-                            proxies=proxies)
+                            headers=header)
                     except Exception as e:
                         print(f'all_track -> get[next]: {e}')
                         # sleep(60)
@@ -215,7 +211,7 @@ def track_details(bunch: list[str]) -> None:
         while True:
             try:
                 # argument -> proxies=proxies for using this in Iran
-                response = requests.get(url, headers=header, proxies=proxies)
+                response = requests.get(url, headers=header)
             except Exception as e:
                 print(f'track_details -> get: {e}')
                 # sleep(60)
@@ -284,7 +280,7 @@ def artist_info(bunch: list[str]) -> None:
         while True:
             try:
                 # argument -> proxies=proxies for using this in Iran
-                response = requests.get(url, headers=header, proxies=proxies)
+                response = requests.get(url, headers=header)
             except Exception as e:
                 print(f'artist_info -> get: {e}')
                 # sleep(60)
