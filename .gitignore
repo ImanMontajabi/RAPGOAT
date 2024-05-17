@@ -1,4 +1,4 @@
 .idea/
 .venv/
 *.env
-stats/__pycache__/
+RAPGOAT/__pycache__/

@@ -5,9 +5,8 @@ import sqlite3
 
 
 def get_database_dir() -> str:
-    this_folder_dir: str = os.path.dirname(__file__)
-    base_dir: str = os.path.dirname(this_folder_dir)
-    database_dir: str = base_dir + '/stats/rapgoat.db'
+    path = os.getcwd()
+    database_dir = path + '/RapGoat.db'
     return database_dir
 
 
