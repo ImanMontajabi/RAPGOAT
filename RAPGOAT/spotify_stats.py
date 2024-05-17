@@ -383,7 +383,3 @@ def main():
     # sleep(600)
 
     con.close()
-
-
-if __name__ == '__main__':
-    main()
