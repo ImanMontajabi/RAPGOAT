@@ -300,9 +300,9 @@ def main():
     :param:
     :return:
     """
-    c_size: int = 5
 
-    max_workers: int = 8
+    max_workers: int = 10
+    c_size: int = len(page_urls) // 10
     if len(page_urls) < max_workers:
         max_workers = len(page_urls)
 

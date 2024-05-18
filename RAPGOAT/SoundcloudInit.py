@@ -21,6 +21,45 @@ my_xpath: dict[str, str] = {
 }
 
 artist_page: dict[str, str] = {
+    'Sajad Shahi': 'https://soundcloud.com/sajadshahi',
+    'Hoodadk4': 'https://soundcloud.com/hoodadk4',
+    'Pouriya Adroit': 'https://soundcloud.com/poriyaadroit',
+    'Matin Fattahi': 'https://soundcloud.com/matinfattahi',
+    'Ali Geramy': 'https://soundcloud.com/aligeramy',
+    'Tiem': 'https://soundcloud.com/justiem',
+    'justina': 'https://soundcloud.com/justinaam',
+    'Erfan': 'https://soundcloud.com/erfanpaydar',
+    '021kid': 'https://soundcloud.com/021kid',
+    'ShahinNajafi': 'https://soundcloud.com/shahinnajafimusic',
+    'Dayan_rz': 'https://soundcloud.com/dayanmusic',
+    'Shayea': 'https://soundcloud.com/shayea_rap',
+    'YAS': 'https://soundcloud.com/yastunes',
+    'Merzhak': 'https://soundcloud.com/mer-zhak',
+    'sajadii': 'https://soundcloud.com/sajadiiofficial',
+    'Jarshaa': 'https://soundcloud.com/jarshaa',
+    'Sijal': 'https://soundcloud.com/sijalofficial',
+    'TM BAX': 'https://soundcloud.com/tmbax',
+    'Tohi': 'https://soundcloud.com/tohi',
+    'EpiCure': 'https://soundcloud.com/epicurex',
+    'Masin': 'https://soundcloud.com/masinrap',
+    'Sibab': 'https://soundcloud.com/sinabofficial',
+    'Sina Mafee': 'https://soundcloud.com/sinamafee',
+    'Arash Saretan': 'https://soundcloud.com/arashsaretan',
+    'BONG MUSIC': 'https://soundcloud.com/user-324173625',
+    "Mez'Rab": 'https://soundcloud.com/mezrab',
+    'Behzad Leito': 'https://soundcloud.com/bezilei',
+    'Toomaj': 'https://soundcloud.com/toomajsalehi',
+    'Amin Tijay': 'https://soundcloud.com/amintijayy',
+    'Armin Robber': 'https://soundcloud.com/arminrobber',
+    'Majhool': 'https://soundcloud.com/officialmajhool',
+    'ArwinAf': 'https://soundcloud.com/arwinaff',
+}
+
+page_urls: list[str] = list(artist_page.values())
+shuffle(page_urls)
+
+
+'''
     'Ali Owj': 'https://soundcloud.com/owjali',
     'Chrvsi': 'https://soundcloud.com/chvrsi',
     'Young Sudden': 'https://soundcloud.com/youngsudden',
@@ -38,13 +77,6 @@ artist_page: dict[str, str] = {
     'Peeleh': 'https://soundcloud.com/peeleh',
     'Peymandegar': 'https://soundcloud.com/peymandegar',
     'Meraj Tehrani': 'https://soundcloud.com/merajtehrani',
-}
-
-page_urls: list[str] = list(artist_page.values())
-shuffle(page_urls)
-
-
-'''
     'PAPA A$LI': 'https://soundcloud.com/arshiaparvane',
     'Mahdyar': 'https://soundcloud.com/mahdyar',
     'Dorcci': 'https://soundcloud.com/dorcci',
