@@ -21,15 +21,8 @@ my_xpath: dict[str, str] = {
 }
 
 artist_page: dict[str, str] = {
-    'PAPA A$LI': 'https://soundcloud.com/arshiaparvane'
-}
-
-page_urls: list[str] = list(artist_page.values())
-shuffle(page_urls)
-
-
-'''
-'Mahdyar': 'https://soundcloud.com/mahdyar',
+    'PAPA A$LI': 'https://soundcloud.com/arshiaparvane',
+    'Mahdyar': 'https://soundcloud.com/mahdyar',
     'Dorcci': 'https://soundcloud.com/dorcci',
     'Amir Tataloo': 'https://soundcloud.com/amirtataloo',
     'Hiphopologist': 'https://soundcloud.com/hiphopologistsoroush',
@@ -48,6 +41,13 @@ shuffle(page_urls)
     'PooBon': 'https://soundcloud.com/tetroparja',
     'Isam': 'https://soundcloud.com/isamdolavion',
     'Sinazaa': 'https://soundcloud.com/sinazza',
+}
+
+page_urls: list[str] = list(artist_page.values())
+shuffle(page_urls)
+
+
+'''
     'Ashkan Kagan': 'https://soundcloud.com/ashkankagan',
     'Hichkas': 'https://soundcloud.com/hichkasofficial',
     'Gdaal': 'https://soundcloud.com/gdaal',
@@ -68,7 +68,6 @@ shuffle(page_urls)
     'Taher': 'https://soundcloud.com/taherflow',
     'Aein': 'https://soundcloud.com/aeinp',
     'Mc Tes': 'https://soundcloud.com/tesmc',
-    'PAPA A$LI': 'https://soundcloud.com/arshiaparvane',
     'Nazli Mcfian': 'https://soundcloud.com/nazlimcfian',
     'Parsalip': 'https://soundcloud.com/parsalipofficial',
     'Alipasha': 'https://soundcloud.com/ali_pashaw',
