@@ -10,6 +10,9 @@ jobs:
   RAPGOAT-Action:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write
+
     services:
       selenium:
         image: selenium/standalone-firefox:latest
