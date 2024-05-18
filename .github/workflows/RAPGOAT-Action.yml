@@ -47,5 +47,6 @@ jobs:
           git add -A
           timestamp=$(date -u)
           git commit -m "Database updated at ${timestamp}" || exit 0
-          git push origin ${{ secrets.GH_TOKEN }}
+          git remote set-url origin https://${{ secrets.GH_TOKEN }}@github.com/ImanMontajabi/RAPGOAT
+          git push origin main
 
