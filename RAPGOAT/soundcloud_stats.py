@@ -301,9 +301,9 @@ def main():
     :return:
     """
 
-    max_workers: int = 10
+    max_workers: int = 8
     page_urls_length: int = len(page_urls)
-    c_size: int = page_urls_length // 10
+    c_size: int = page_urls_length // max_workers
 
     if page_urls_length < max_workers:
         max_workers = page_urls_length
