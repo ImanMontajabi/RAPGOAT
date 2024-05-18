@@ -23,7 +23,7 @@ def scroll_down(driver, url: str) -> None:
     new_height: int
     while True:
         driver.execute_script('window.scrollBy(0, 350);')
-        sleep(2)
+        sleep(3)
         if driver.execute_script('return window.innerHeight + \
         window.pageYOffset >= document.body.offsetHeight'):
             try:
@@ -301,15 +301,13 @@ def main():
     :return:
     """
 
-    max_workers: int = 7
+    max_workers: int = 2
     page_urls_length: int = len(page_urls)
-    # or page_urls_length // max_workers is another approach
-    c_size: int = 2
 
     if page_urls_length < max_workers:
         max_workers = page_urls_length
-        c_size = 1
 
+    c_size: int = page_urls_length // max_workers
     chunked_list = [
         page_urls[i: i + c_size] for i in range(0, page_urls_length, c_size)]
 
