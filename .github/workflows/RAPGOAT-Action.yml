@@ -47,5 +47,4 @@ jobs:
           git add -A
           timestamp=$(date -u)
           git commit -m "Database updated at ${timestamp}" || exit 0
-          git push origin ${{ secrets.GH_TOKEN }}
-
+          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/ImanMontajabi/RAPGOAT.git main
