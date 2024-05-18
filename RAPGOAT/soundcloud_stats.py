@@ -303,12 +303,12 @@ def main():
 
     max_workers: int = 4
     page_urls_length: int = len(page_urls)
+    # page_urls_length // max_workers
+    c_size: int = 4
 
     if page_urls_length < max_workers:
         max_workers = page_urls_length
-
-    # page_urls_length // max_workers
-    c_size: int = 4
+        c_size = 1
 
     chunked_list = [
         page_urls[i: i + c_size] for i in range(0, page_urls_length, c_size)]

@@ -22,13 +22,6 @@ my_xpath: dict[str, str] = {
 
 artist_page: dict[str, str] = {
     'Mahdyar': 'https://soundcloud.com/mahdyar',
-}
-
-page_urls: list[str] = list(artist_page.values())
-shuffle(page_urls)
-
-
-'''
     'Dorcci': 'https://soundcloud.com/dorcci',
     'Amir Tataloo': 'https://soundcloud.com/amirtataloo',
     'Hiphopologist': 'https://soundcloud.com/hiphopologistsoroush',
@@ -96,4 +89,7 @@ shuffle(page_urls)
     'Amin Tijay': 'https://soundcloud.com/amintijayy',
     'Pouriaa': 'https://soundcloud.com/pouriaa021',
     'Lenna': 'https://soundcloud.com/llennah',
-'''
+}
+
+page_urls: list[str] = list(artist_page.values())
+shuffle(page_urls)
