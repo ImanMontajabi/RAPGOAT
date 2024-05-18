@@ -41,6 +41,7 @@ artist_page: dict[str, str] = {
     'PooBon': 'https://soundcloud.com/tetroparja',
     'Isam': 'https://soundcloud.com/isamdolavion',
     'Sinazaa': 'https://soundcloud.com/sinazza',
+    'Ashkan Kagan': 'https://soundcloud.com/ashkankagan',
 }
 
 page_urls: list[str] = list(artist_page.values())
@@ -48,7 +49,6 @@ shuffle(page_urls)
 
 
 '''
-    'Ashkan Kagan': 'https://soundcloud.com/ashkankagan',
     'Hichkas': 'https://soundcloud.com/hichkasofficial',
     'Gdaal': 'https://soundcloud.com/gdaal',
     'soelchigini': 'https://soundcloud.com/soelchigini',
