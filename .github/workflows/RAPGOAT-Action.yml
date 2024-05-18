@@ -13,12 +13,6 @@ jobs:
     permissions:
       contents: write
 
-    services:
-      selenium:
-        image: selenium/standalone-firefox:latest
-        ports:
-          - 4444:4444
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -37,7 +31,6 @@ jobs:
         env:
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-          SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
         run: |
           python RAPGOAT/main.py
 
