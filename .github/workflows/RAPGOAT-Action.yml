@@ -40,13 +40,12 @@ jobs:
 
       - name: Commit and push changes
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           git config user.name "ImanMontajabi"
           git config user.email "iman.montajabi@gmail.com"
           git add -A
           timestamp=$(date -u)
           git commit -m "Database updated at ${timestamp}" || exit 0
-          git remote set-url origin https://${{ secrets.GH_TOKEN }}@github.com/ImanMontajabi/RAPGOAT
-          git push origin main
+          git push origin ${{ secrets.GH_TOKEN }}
 
