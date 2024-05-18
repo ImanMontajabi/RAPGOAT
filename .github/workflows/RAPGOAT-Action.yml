@@ -22,7 +22,14 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install the latest Firefox
+      - name: Remove existing Firefox
+        run: |
+          sudo apt-get remove --purge -y firefox
+          sudo rm -rf /etc/firefox
+          sudo rm -rf /usr/lib/firefox
+          sudo rm -rf /usr/lib/firefox-addons
+
+      - name: Install the latest version of Firefox
         run: |
           sudo apt-get update
           sudo apt-get install -y firefox
