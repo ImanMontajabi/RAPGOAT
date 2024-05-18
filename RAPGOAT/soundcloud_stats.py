@@ -23,7 +23,7 @@ def scroll_down(driver, url: str) -> None:
     new_height: int
     while True:
         driver.execute_script('window.scrollBy(0, 350);')
-        sleep(2)
+        sleep(3)
         if driver.execute_script('return window.innerHeight + \
         window.pageYOffset >= document.body.offsetHeight'):
             try:
@@ -63,7 +63,8 @@ def string_to_int(number: str) -> None | int:
         try:
             number_int = int(number)
         except Exception as e:
-            print(e)
+            print(f'string_to_int() -> converting letter to number failed\n'
+                  f'error: {e}')
             return None
 
     return number_int
@@ -261,7 +262,7 @@ def scraper(url_chunk: list):
 
     options = webdriver.FirefoxOptions()
     options.add_argument('--headless')
-    driver = webdriver.Firefox(options=options)
+    driver = webdriver.Firefox()
     driver.set_page_load_timeout(300)
     driver.implicitly_wait(10)
 
