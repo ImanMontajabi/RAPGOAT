@@ -262,7 +262,7 @@ def scraper(url_chunk: list):
 
     options = webdriver.FirefoxOptions()
     options.add_argument('--headless')
-    driver = webdriver.Firefox()
+    driver = webdriver.Firefox(options=options)
     driver.set_page_load_timeout(300)
     driver.implicitly_wait(10)
 
