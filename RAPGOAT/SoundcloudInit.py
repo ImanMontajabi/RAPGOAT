@@ -30,6 +30,7 @@ artist_page: dict[str, str] = {
     'Reza Pishro': 'https://soundcloud.com/reza-pishro-rail',
     'Bahram': 'https://soundcloud.com/bahramnouraei',
     'CatchyBeatz': 'https://soundcloud.com/tiktaak-sr',
+    'Poori': 'https://soundcloud.com/godpoori',
 }
 
 page_urls: list[str] = list(artist_page.values())
@@ -38,7 +39,6 @@ shuffle(page_urls)
 
 '''
     'Ali Owj': 'https://soundcloud.com/owjali',
-    'Poori': 'https://soundcloud.com/godpoori',
     'Chrvsi': 'https://soundcloud.com/chvrsi',
     'Young Sudden': 'https://soundcloud.com/youngsudden',
     'Koorosh': 'https://soundcloud.com/koorowsh420',

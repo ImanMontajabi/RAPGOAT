@@ -62,6 +62,31 @@ def fetch_all(db_dir: str):
         writer.writerow(table_headers)
         writer.writerows(all_data)
 
+    try:
+        cur.execute('''
+                SELECT track_url, page_name, track_title, plays, 
+                likes, comments, upload_datetime, cover_url
+                FROM soundcloud_tracks
+            ''')
+        all_data = cur.fetchall()
+    except sqlite3.DatabaseError as e:
+        print(f'Data Export was unsuccessful: {e}')
+        exit(1)
+    else:
+        table_headers: list[str] = [desc[0] for desc in cur.description]
+
+    this_dir: str = os.getcwd()
+    if not os.path.exists(this_dir + '/CSV'):
+        csv_path: str = os.path.join(this_dir, 'CSV')
+        os.mkdir(csv_path)
+    csv_file_dir: str = this_dir + '/CSV/soundcloud_tracks.csv'
+    with open(csv_file_dir, 'w', newline='') as csvfile:
+        writer = csv.writer(
+            csvfile, delimiter=',', lineterminator='\r\n',
+            quoting=csv.QUOTE_ALL, escapechar='\\')
+        writer.writerow(table_headers)
+        writer.writerows(all_data)
+
     print('Data export was successful')
     con.close()
 
