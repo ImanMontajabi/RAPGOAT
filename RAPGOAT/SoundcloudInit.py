@@ -21,53 +21,6 @@ my_xpath: dict[str, str] = {
 }
 
 artist_page: dict[str, str] = {
-    'Amir Khalvat': 'https://soundcloud.com/amirkhalvatofficial',
-    'Hamid Sefat': 'https://soundcloud.com/hamidsefat021',
-    'Sohrab MJ': 'https://soundcloud.com/haj-ali-77490318',
-    '021G': 'https://soundcloud.com/gandom-021',
-    'Daniyal': 'https://soundcloud.com/kederdaniyal',
-    'Amir Ribar': 'https://soundcloud.com/realribar',
-    'Amir Reghab': 'https://soundcloud.com/amirreghab',
-    'Hamed Slash': 'https://soundcloud.com/hamedslash',
-    'Mehyad': 'https://soundcloud.com/mehyad',
-    'Eycin': 'https://soundcloud.com/ey-cin',
-    'Mamazimanam': 'https://soundcloud.com/mamazimanam',
-    'Dalu': 'https://soundcloud.com/dalumc',
-    'Sepehr Cnjim': 'https://soundcloud.com/cnjim',
-    'Pidar': 'https://soundcloud.com/piidar',
-    'Parhum': 'https://soundcloud.com/parhum',
-    'Kaveh': 'https://soundcloud.com/kavehofficial',
-    'Ashna': 'https://soundcloud.com/ashnarap',
-    'PutaK': 'https://soundcloud.com/pooriaputak',
-    'Dara K': 'https://soundcloud.com/darapaydar',
-    'Pedi I': 'https://soundcloud.com/pedi-i-463233270',
-    'Parsa Simpson': 'https://soundcloud.com/parsa_simpson',
-    'PapaBoyz': 'https://soundcloud.com/papa-boyz',
-    'Saeed Dehghan': 'https://soundcloud.com/saeed-dehghan',
-}
-
-page_urls: list[str] = list(artist_page.values())
-shuffle(page_urls)
-
-
-'''
-    'Ali Owj': 'https://soundcloud.com/owjali',
-    'Chrvsi': 'https://soundcloud.com/chvrsi',
-    'Young Sudden': 'https://soundcloud.com/youngsudden',
-    'Koorosh': 'https://soundcloud.com/koorowsh420',
-    'Arta': 'https://soundcloud.com/arta-mir',
-    'Arman Miladi': 'https://soundcloud.com/arman-miladi',
-    'Sami Low': 'https://soundcloud.com/sami-low-instrumental',
-    'PooBon': 'https://soundcloud.com/tetroparja',
-    'Isam': 'https://soundcloud.com/isamdolavion',
-    'Sinazaa': 'https://soundcloud.com/sinazza',
-    'Ashkan Kagan': 'https://soundcloud.com/ashkankagan',
-    'Hichkas': 'https://soundcloud.com/hichkasofficial',
-    'Gdaal': 'https://soundcloud.com/gdaal',
-    'soelchigini': 'https://soundcloud.com/soelchigini',
-    'Peeleh': 'https://soundcloud.com/peeleh',
-    'Peymandegar': 'https://soundcloud.com/peymandegar',
-    'Meraj Tehrani': 'https://soundcloud.com/merajtehrani',
     'PAPA A$LI': 'https://soundcloud.com/arshiaparvane',
     'Mahdyar': 'https://soundcloud.com/mahdyar',
     'Dorcci': 'https://soundcloud.com/dorcci',
@@ -184,4 +137,7 @@ shuffle(page_urls)
     'Armin Robber': 'https://soundcloud.com/arminrobber',
     'Majhool': 'https://soundcloud.com/officialmajhool',
     'ArwinAf': 'https://soundcloud.com/arwinaff',
-'''
+}
+
+page_urls: list[str] = list(artist_page.values())
+shuffle(page_urls)
