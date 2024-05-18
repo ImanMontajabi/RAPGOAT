@@ -24,11 +24,24 @@ def fetch_all(db_dir: str):
         print(f'Data base connection was unsuccessful: {e}')
         exit(1)
 
+    # try:
+    #     cur.execute('''
+    #             SELECT track_id, track_name, release_date, duration_ms,
+    #             popularity, cover_album, artists_names, artists_ids
+    #             FROM track_details
+    #         ''')
+    #     all_data = cur.fetchall()
+    # except sqlite3.DatabaseError as e:
+    #     print(f'Data Export was unsuccessful: {e}')
+    #     exit(1)
+    # else:
+    #     table_headers: list[str] = [desc[0] for desc in cur.description]
+
     try:
         cur.execute('''
-                SELECT track_id, track_name, release_date, duration_ms, 
-                popularity, cover_album, artists_names, artists_ids 
-                FROM track_details
+                SELECT page_url, page_name, followers, followings, 
+                tracks, avatar_url
+                FROM soundcloud_artist
             ''')
         all_data = cur.fetchall()
     except sqlite3.DatabaseError as e:
@@ -38,7 +51,7 @@ def fetch_all(db_dir: str):
         table_headers: list[str] = [desc[0] for desc in cur.description]
 
     this_dir: str = os.getcwd()
-    csv_file_dir: str = this_dir + '/track_details.csv'
+    csv_file_dir: str = this_dir + '/soundcloud_artist.csv'
     with open(csv_file_dir, 'w', newline='') as csvfile:
         writer = csv.writer(
             csvfile, delimiter=',', lineterminator='\r\n',

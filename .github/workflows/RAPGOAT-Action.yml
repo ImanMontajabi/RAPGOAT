@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
+  RAPGOAT-Action:
     runs-on: ubuntu-latest
 
     services:
@@ -36,4 +36,13 @@ jobs:
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
           SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
         run: |
-          python ./RAPGOAT/main.py
+          python RAPGOAT/main.py
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "ImanMontajabi"
+          git config user.email "iman.montajabi@gmail.com"
+          git add -A
+          timestamp=$(date -u)
+          git commit -m "Database updated at ${timestamp}" || exit 0
+          git push origin main
