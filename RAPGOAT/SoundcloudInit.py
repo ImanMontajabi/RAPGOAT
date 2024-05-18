@@ -30,6 +30,13 @@ artist_page: dict[str, str] = {
     'Reza Pishro': 'https://soundcloud.com/reza-pishro-rail',
     'Bahram': 'https://soundcloud.com/bahramnouraei',
     'CatchyBeatz': 'https://soundcloud.com/tiktaak-sr',
+}
+
+page_urls: list[str] = list(artist_page.values())
+shuffle(page_urls)
+
+
+'''
     'Ali Owj': 'https://soundcloud.com/owjali',
     'Poori': 'https://soundcloud.com/godpoori',
     'Chrvsi': 'https://soundcloud.com/chvrsi',
@@ -42,13 +49,6 @@ artist_page: dict[str, str] = {
     'Isam': 'https://soundcloud.com/isamdolavion',
     'Sinazaa': 'https://soundcloud.com/sinazza',
     'Ashkan Kagan': 'https://soundcloud.com/ashkankagan',
-}
-
-page_urls: list[str] = list(artist_page.values())
-shuffle(page_urls)
-
-
-'''
     'Hichkas': 'https://soundcloud.com/hichkasofficial',
     'Gdaal': 'https://soundcloud.com/gdaal',
     'soelchigini': 'https://soundcloud.com/soelchigini',
