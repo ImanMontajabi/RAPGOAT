@@ -23,6 +23,7 @@ def scroll_down(driver, url: str) -> None:
     new_height: int
     while True:
         driver.execute_script('window.scrollBy(0, 350);')
+        # this variable changes scrawling speed
         sleep(1)
         if driver.execute_script('return window.innerHeight + \
         window.pageYOffset >= document.body.offsetHeight'):
