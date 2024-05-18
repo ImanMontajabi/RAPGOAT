@@ -302,7 +302,7 @@ def main():
     """
     c_size: int = 5
 
-    max_workers: int = 10
+    max_workers: int = 5
     if len(page_urls) < max_workers:
         max_workers = len(page_urls)
 
