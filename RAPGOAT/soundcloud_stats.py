@@ -23,7 +23,7 @@ def scroll_down(driver, url: str) -> None:
     new_height: int
     while True:
         driver.execute_script('window.scrollBy(0, 350);')
-        sleep(3)
+        sleep(1)
         if driver.execute_script('return window.innerHeight + \
         window.pageYOffset >= document.body.offsetHeight'):
             try:
@@ -261,7 +261,7 @@ def scraper(url_chunk: list):
 
     options = webdriver.FirefoxOptions()
     options.add_argument('--headless')
-    driver = webdriver.Firefox(options=options)
+    driver = webdriver.Firefox()
     driver.set_page_load_timeout(300)
     driver.implicitly_wait(10)
 
