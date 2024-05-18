@@ -302,12 +302,14 @@ def main():
     """
 
     max_workers: int = 10
-    c_size: int = len(page_urls) // 10
-    if len(page_urls) < max_workers:
-        max_workers = len(page_urls)
+    page_urls_length: int = len(page_urls)
+    c_size: int = page_urls_length // 10
+
+    if page_urls_length < max_workers:
+        max_workers = page_urls_length
 
     chunked_list = [
-        page_urls[i: i + c_size] for i in range(0, len(page_urls), c_size)]
+        page_urls[i: i + c_size] for i in range(0, page_urls_length, c_size)]
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         futures = [

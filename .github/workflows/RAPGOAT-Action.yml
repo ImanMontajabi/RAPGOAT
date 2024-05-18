@@ -40,5 +40,5 @@ jobs:
           git config user.email "iman.montajabi@gmail.com"
           git add -A
           timestamp=$(date -u)
-          git commit -m "👻️ Database updated at ${timestamp}" || exit 0
+          git commit -m "🛢️️  Database updated ⏰ ${timestamp}" || exit 0
           git push origin main
