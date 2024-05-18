@@ -42,12 +42,10 @@ jobs:
           python RAPGOAT/main.py
 
       - name: Commit and push changes
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           git config user.name "ImanMontajabi"
           git config user.email "iman.montajabi@gmail.com"
           git add -A
           timestamp=$(date -u)
           git commit -m "Database updated at ${timestamp}" || exit 0
-          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/ImanMontajabi/RAPGOAT.git main
+          git push origin main
