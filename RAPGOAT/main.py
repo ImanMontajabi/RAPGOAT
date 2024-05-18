@@ -12,14 +12,14 @@ if __name__ == '__main__':
     # else:
     #     print('Spotify successfully updated')
 
-    # try:
-    #     print('- soundcloud is started...')
-    #     soundcloud_stats.main()
-    # except Exception as e:
-    #     print(f'Updating process soundcloud'
-    #           f' in main.py encountered an error: {e}')
-    # else:
-    #     print('Soundcloud successfully updated')
+    try:
+        print('- soundcloud is started...')
+        soundcloud_stats.main()
+    except Exception as e:
+        print(f'Updating process soundcloud'
+              f' in main.py encountered an error: {e}')
+    else:
+        print('Soundcloud successfully updated')
 
     try:
         print('- convertor is started...')
