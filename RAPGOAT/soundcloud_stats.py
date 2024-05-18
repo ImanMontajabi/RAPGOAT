@@ -261,7 +261,7 @@ def scraper(url_chunk: list):
 
     options = webdriver.FirefoxOptions()
     options.add_argument('--headless')
-    driver = webdriver.Firefox()
+    driver = webdriver.Firefox(options=options)
     driver.set_page_load_timeout(300)
     driver.implicitly_wait(10)
 
@@ -302,7 +302,7 @@ def main():
     """
     c_size: int = 5
 
-    max_workers: int = 5
+    max_workers: int = 10
     if len(page_urls) < max_workers:
         max_workers = len(page_urls)
 
