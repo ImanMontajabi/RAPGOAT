@@ -21,6 +21,30 @@ my_xpath: dict[str, str] = {
 }
 
 artist_page: dict[str, str] = {
+    'Ali Owj': 'https://soundcloud.com/owjali',
+    'Chrvsi': 'https://soundcloud.com/chvrsi',
+    'Young Sudden': 'https://soundcloud.com/youngsudden',
+    'Koorosh': 'https://soundcloud.com/koorowsh420',
+    'Arta': 'https://soundcloud.com/arta-mir',
+    'Arman Miladi': 'https://soundcloud.com/arman-miladi',
+    'Sami Low': 'https://soundcloud.com/sami-low-instrumental',
+    'PooBon': 'https://soundcloud.com/tetroparja',
+    'Isam': 'https://soundcloud.com/isamdolavion',
+    'Sinazaa': 'https://soundcloud.com/sinazza',
+    'Ashkan Kagan': 'https://soundcloud.com/ashkankagan',
+    'Hichkas': 'https://soundcloud.com/hichkasofficial',
+    'Gdaal': 'https://soundcloud.com/gdaal',
+    'soelchigini': 'https://soundcloud.com/soelchigini',
+    'Peeleh': 'https://soundcloud.com/peeleh',
+    'Peymandegar': 'https://soundcloud.com/peymandegar',
+    'Meraj Tehrani': 'https://soundcloud.com/merajtehrani',
+}
+
+page_urls: list[str] = list(artist_page.values())
+shuffle(page_urls)
+
+
+'''
     'PAPA A$LI': 'https://soundcloud.com/arshiaparvane',
     'Mahdyar': 'https://soundcloud.com/mahdyar',
     'Dorcci': 'https://soundcloud.com/dorcci',
@@ -31,13 +55,6 @@ artist_page: dict[str, str] = {
     'Bahram': 'https://soundcloud.com/bahramnouraei',
     'CatchyBeatz': 'https://soundcloud.com/tiktaak-sr',
     'Poori': 'https://soundcloud.com/godpoori',
-}
-
-page_urls: list[str] = list(artist_page.values())
-shuffle(page_urls)
-
-
-'''
     'Ali Owj': 'https://soundcloud.com/owjali',
     'Chrvsi': 'https://soundcloud.com/chvrsi',
     'Young Sudden': 'https://soundcloud.com/youngsudden',
