@@ -51,7 +51,7 @@ def fetch_all(db_dir: str):
         table_headers: list[str] = [desc[0] for desc in cur.description]
 
     this_dir: str = os.getcwd()
-    csv_file_dir: str = this_dir + '/soundcloud_artist.csv'
+    csv_file_dir: str = this_dir + '/CSV/soundcloud_artist.csv'
     with open(csv_file_dir, 'w', newline='') as csvfile:
         writer = csv.writer(
             csvfile, delimiter=',', lineterminator='\r\n',
