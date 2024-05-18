@@ -3,4 +3,4 @@
 *.env
 RAPGOAT/__pycache__/
 RAPGOAT/*.db
-RAPGOAT/*.csv
+RAPGOAT/CSV
