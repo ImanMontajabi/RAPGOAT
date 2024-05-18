@@ -21,8 +21,8 @@ my_xpath: dict[str, str] = {
 }
 
 artist_page: dict[str, str] = {
-    'PAPA A$LI': 'https://soundcloud.com/arshiaparvane',
     'Mahdyar': 'https://soundcloud.com/mahdyar',
+    'PAPA A$LI': 'https://soundcloud.com/arshiaparvane',
     'Dorcci': 'https://soundcloud.com/dorcci',
     'Amir Tataloo': 'https://soundcloud.com/amirtataloo',
     'Hiphopologist': 'https://soundcloud.com/hiphopologistsoroush',
@@ -55,10 +55,6 @@ artist_page: dict[str, str] = {
     'Dariu$h': 'https://soundcloud.com/tbhkr',
     'ATOUR': 'https://soundcloud.com/atour',
     'Navid': 'https://soundcloud.com/navidsadr',
-    'yarapelak': 'https://soundcloud.com/yarapelak',
-    'Soall': 'https://soundcloud.com/xsoall',
-    'Zoha': 'https://soundcloud.com/zohaofficial',
-    'Taher': 'https://soundcloud.com/taherflow',
     'Aein': 'https://soundcloud.com/aeinp',
     'Mc Tes': 'https://soundcloud.com/tesmc',
     'Nazli Mcfian': 'https://soundcloud.com/nazlimcfian',
@@ -81,7 +77,6 @@ artist_page: dict[str, str] = {
     'Mehrad Hidden': 'https://soundcloud.com/mehradhiddenofficial',
     'Canis': 'https://soundcloud.com/icanisofficial',
     'Wantons': 'https://soundcloud.com/wantons',
-    'The Don': 'https://soundcloud.com/thedonofficialll',
     'Amir Khalvat': 'https://soundcloud.com/amirkhalvatofficial',
     'Hamid Sefat': 'https://soundcloud.com/hamidsefat021',
     'Sohrab MJ': 'https://soundcloud.com/haj-ali-77490318',
@@ -101,7 +96,6 @@ artist_page: dict[str, str] = {
     'Ashna': 'https://soundcloud.com/ashnarap',
     'PutaK': 'https://soundcloud.com/pooriaputak',
     'Dara K': 'https://soundcloud.com/darapaydar',
-    'Pedi I': 'https://soundcloud.com/pedi-i-463233270',
     'Parsa Simpson': 'https://soundcloud.com/parsa_simpson',
     'PapaBoyz': 'https://soundcloud.com/papa-boyz',
     'Saeed Dehghan': 'https://soundcloud.com/saeed-dehghan',
@@ -111,11 +105,9 @@ artist_page: dict[str, str] = {
     'Matin Fattahi': 'https://soundcloud.com/matinfattahi',
     'Ali Geramy': 'https://soundcloud.com/aligeramy',
     'Tiem': 'https://soundcloud.com/justiem',
-    'justina': 'https://soundcloud.com/justinaam',
     'Erfan': 'https://soundcloud.com/erfanpaydar',
     '021kid': 'https://soundcloud.com/021kid',
     'ShahinNajafi': 'https://soundcloud.com/shahinnajafimusic',
-    'Dayan_rz': 'https://soundcloud.com/dayanmusic',
     'Shayea': 'https://soundcloud.com/shayea_rap',
     'YAS': 'https://soundcloud.com/yastunes',
     'Merzhak': 'https://soundcloud.com/mer-zhak',
@@ -132,11 +124,13 @@ artist_page: dict[str, str] = {
     'BONG MUSIC': 'https://soundcloud.com/user-324173625',
     "Mez'Rab": 'https://soundcloud.com/mezrab',
     'Behzad Leito': 'https://soundcloud.com/bezilei',
-    'Toomaj': 'https://soundcloud.com/toomajsalehi',
     'Amin Tijay': 'https://soundcloud.com/amintijayy',
     'Armin Robber': 'https://soundcloud.com/arminrobber',
     'Majhool': 'https://soundcloud.com/officialmajhool',
     'ArwinAf': 'https://soundcloud.com/arwinaff',
+    'Pouriaa': 'https://soundcloud.com/pouriaa021',
+    'Lenna': 'https://soundcloud.com/llennah',
+    'Youngarshi': 'https://soundcloud.com/youngarshi'
 }
 
 page_urls: list[str] = list(artist_page.values())
