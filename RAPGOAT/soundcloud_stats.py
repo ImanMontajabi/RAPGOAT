@@ -301,10 +301,10 @@ def main():
     :return:
     """
 
-    max_workers: int = 4
+    max_workers: int = 7
     page_urls_length: int = len(page_urls)
-    # page_urls_length // max_workers
-    c_size: int = 4
+    # or page_urls_length // max_workers is another approach
+    c_size: int = 2
 
     if page_urls_length < max_workers:
         max_workers = page_urls_length
