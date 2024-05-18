@@ -23,7 +23,7 @@ def scroll_down(driver, url: str) -> None:
     new_height: int
     while True:
         driver.execute_script('window.scrollBy(0, 350);')
-        sleep(3)
+        sleep(2)
         if driver.execute_script('return window.innerHeight + \
         window.pageYOffset >= document.body.offsetHeight'):
             try:
@@ -302,7 +302,7 @@ def main():
     :return:
     """
 
-    max_workers: int = 5
+    max_workers: int = 4
     page_urls_length: int = len(page_urls)
     c_size: int = page_urls_length // max_workers
 

@@ -43,8 +43,6 @@ artist_page: dict[str, str] = {
     'Hichkas': 'https://soundcloud.com/hichkasofficial',
     'Gdaal': 'https://soundcloud.com/gdaal',
     'soelchigini': 'https://soundcloud.com/soelchigini',
-    'MOTREB': 'https://soundcloud.com/motrebam',
-    'Farsea': 'https://soundcloud.com/farsea',
     'Divar': 'https://soundcloud.com/divarrecords',
     'Dariu$h': 'https://soundcloud.com/tbhkr',
     'ATOUR': 'https://soundcloud.com/atour',
