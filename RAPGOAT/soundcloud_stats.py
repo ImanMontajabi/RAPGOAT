@@ -63,8 +63,7 @@ def string_to_int(number: str) -> None | int:
         try:
             number_int = int(number)
         except Exception as e:
-            print(f'string_to_int() -> converting letter to number failed\n'
-                  f'error: {e}')
+            print(f'string_to_int() > converting number failed > {e}')
             return None
 
     return number_int
@@ -105,7 +104,7 @@ def page_information(driver, url: str) -> list[tuple]:
         if name.endswith(' Verified'):
             name = name.replace(' Verified', '')
     except exceptions.NoSuchElementException as e:
-        print(e)
+        print(f'page_information() > page_name > {e}')
         name = None
 
     try:
@@ -119,7 +118,7 @@ def page_information(driver, url: str) -> list[tuple]:
         following_int = string_to_int(stats[3])
         tracks_int = string_to_int(stats[5])
     except Exception as e:
-        print(e)
+        print(f'page_information > page_stats > {e}')
         followers_int = None
         following_int = None
         tracks_int = None
@@ -132,7 +131,7 @@ def page_information(driver, url: str) -> list[tuple]:
         avatar_style = avatar_url.get_attribute('style')
         avatar_url = extract_hq_image_url(avatar_style)
     except exceptions.NoSuchElementException as e:
-        print(e)
+        print(f'page_information() > page_avatar > {e}')
         avatar_url = None
 
     page_info_for_query.append((
@@ -209,7 +208,7 @@ def tracks_information(driver) -> list[tuple]:
             if name.endswith(' Verified'):
                 name = name.replace(' Verified', '')
         except exceptions.NoSuchElementException as e:
-            print(e)
+            print(f'tracks_information > page_name > {e}')
             name = None
 
         tracks_info_for_query.append((
@@ -239,7 +238,7 @@ def get_url(driver, url: str) -> None:
         try:
             driver.get(url + '/tracks')
         except Exception as e:
-            print(e)
+            print(f'get_url() > {e}')
         else:
             break
 
@@ -249,7 +248,7 @@ def run_scroll_down(driver, url: str) -> None:
         try:
             scroll_down(driver, url)
         except Exception as e:
-            print(f'scroll down: {e}')
+            print(f'run_scroll_down() > {e}')
             sleep(5)
             get_url(driver, url)
         else:
@@ -270,7 +269,7 @@ def scraper(url_chunk: list):
         con = sqlite3.connect('RapGoat.db')
         cur = con.cursor()
     except sqlite3.DatabaseError as e:
-        print(f'Database connection was unsuccessful: {e}')
+        print(f'scraper > Database connection was unsuccessful > {e}')
         exit(1)
 
     initialize_tables(cur)
@@ -319,4 +318,4 @@ def main():
             try:
                 future.result()
             except Exception as e:
-                print(e)
+                print(f'main() > ThreadPoolExecutor > {e}')
