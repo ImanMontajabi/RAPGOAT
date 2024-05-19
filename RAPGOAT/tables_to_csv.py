@@ -86,7 +86,12 @@ def convertor(database_dir: str) -> None:
                 csvfile, delimiter=',', lineterminator='\r\n',
                 quoting=csv.QUOTE_ALL, escapechar='\\')
             writer.writerow(table_headers)
-            writer.writerows(all_data)
+            # Replace not exist values with null
+            for row in all_data:
+                data_with_none = [
+                    'NULL' if value is None else value for value in row
+                ]
+                writer.writerow(data_with_none)
 
     print('Data export was successful')
     con.close()
