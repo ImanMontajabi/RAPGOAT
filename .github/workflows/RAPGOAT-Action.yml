@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ main ]
 
+env:
+  CLIENT_ID: ${{ secrets.CLIENT_ID }}
+  CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+
 jobs:
   RAPGOAT-Action:
     runs-on: ubuntu-latest
@@ -28,9 +32,6 @@ jobs:
           pip install -r requirements.txt
 
       - name: Start RAPGOAT
-        env:
-          CLIENT_ID: ${{ secrets.CLIENT_ID }}
-          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
         run: |
           python RAPGOAT/main.py
 
