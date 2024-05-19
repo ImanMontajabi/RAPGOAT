@@ -19,17 +19,11 @@ def get_database_dir() -> str:
 
     path = os.getcwd()
     database_dir = os.path.join(path, 'RapGoat.db')
-    print(database_dir)
     return database_dir
 
 
 def check_database(db_dir: str) -> None:
-    """
-    Check if the database file exists in the specified directory.
-    :arg:
-        db_dir (str): The path to the database file.
-    :raise:
-        SystemExit: If the database file does not exist."""
+    """Check if the database file exists in the specified directory."""
     if not os.path.isfile(db_dir):
         print('There is no such database in this directory!')
         exit(1)
@@ -98,8 +92,8 @@ def convertor(database_dir: str) -> None:
             print(f'convertor > {e}')
         else:
             print('Data export was successful.')
-        finally:
-            con.close()
+
+    con.close()
 
 
 def get_table_names(cur: sqlite3.Cursor) -> list:
