@@ -18,7 +18,7 @@ def get_database_dir() -> str:
         str: The absolute path to the database file."""
 
     path = os.getcwd()
-    database_dir = path + '/RapGoat.db'
+    database_dir = os.path.join(path, 'RapGoat.db')
     return database_dir
 
 
@@ -81,20 +81,24 @@ def convertor(database_dir: str) -> None:
 
         '''Defines name of .csv file and opens it to write data in it'''
         csv_file_dir: str = this_dir + f'/CSV/{table_name}.csv'
-        with open(csv_file_dir, 'w', newline='') as csvfile:
-            writer = csv.writer(
-                csvfile, delimiter=',', lineterminator='\r\n',
-                quoting=csv.QUOTE_ALL, escapechar='\\')
-            writer.writerow(table_headers)
-            # Replace not exist values with null
-            for row in all_data:
-                data_with_none = [
-                    'NULL' if value is None else value for value in row
-                ]
-                writer.writerow(data_with_none)
-
-    print('Data export was successful')
-    con.close()
+        try:
+            with open(csv_file_dir, 'w', newline='') as csvfile:
+                writer = csv.writer(
+                    csvfile, delimiter=',', lineterminator='\r\n',
+                    quoting=csv.QUOTE_ALL, escapechar='\\')
+                writer.writerow(table_headers)
+                # Replace not exist values with null instead of empty string
+                for row in all_data:
+                    data_with_none = [
+                        'NULL' if value is None else value for value in row
+                    ]
+                    writer.writerow(data_with_none)
+        except IOError as e:
+            print(f'convertor > {e}')
+        else:
+            print('Data export was successful')
+        finally:
+            con.close()
 
 
 def get_table_names(cur: sqlite3.Cursor) -> list:
