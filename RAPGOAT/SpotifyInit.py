@@ -16,14 +16,7 @@ except sqlite3.DatabaseError as e:
     exit(1)
 
 artist_page: dict[str, str] = {
-    'Ashna': '5Z0flsrz7Q8xJ2arSoYetY',
-}
-
-artist_ids = ','.join(list(artist_page.values()))
-
-
-'''
-'Fadaei': '5aWL79DpD45MzDMwCTZqsN',
+    'Fadaei': '5aWL79DpD45MzDMwCTZqsN',
     'Shapur': '6kbLiMnkNZHlvMpTv5iK9h',
     'Quf': '1LyLFeSDfvcGc8K6caTl05',
     'Hiphopologist': '45YMrIBH74j8e2wNlRSSdK',
@@ -163,4 +156,15 @@ artist_ids = ','.join(list(artist_page.values()))
     'Lena': '7zH1d81QnIKfrZ71VCnncv',
     'Dariu$h': '3HQedAYh7K5YW4MD108gP3',
     'Toomaj': '5mBmrpiMC2lzIWCG0MDOYx',
-'''
+    'Ashna': '5Z0flsrz7Q8xJ2arSoYetY',
+    'Pouriaa': '4ieDlQoZpwiWJmL5OytsQW',
+    'Arshia': '1qgesJnOLeUUOPGUW305j5',
+    'ArwinAf': '359Y4Mzw80aWCw4JTqyYAo',
+    'Nazli Macfian': '5tLaq6yrpvEpoKyLoTbHoD',
+    'Heliyom': '5GS60wuvILuGWpx9rMvRTQ',
+    'Cnjim': '2utR6IBKj6bToiY7ei121b',
+    'Amir Ribar': '1pi0dvF0ZMfD1d1KdR2r21',
+    'Kaveh': '6fR4bmvdi3nLYzLji6JVK1',
+}
+
+artist_ids = ','.join(list(artist_page.values()))

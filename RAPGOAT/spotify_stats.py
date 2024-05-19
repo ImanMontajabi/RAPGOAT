@@ -31,7 +31,7 @@ def auth_header() -> dict[str, str]:
                 headers=headers,
                 data=data)
         except Exception as e:
-            print(f'auth_header -> post: {e}')
+            print(f'auth_header() > post() > {e}')
             # sleep(60)
         else:
             break
@@ -83,7 +83,7 @@ def albums_details(bunch: list[str]) -> None:
                         albums['next'],
                         headers=header)
                 except Exception as e:
-                    print(f'album_details > get[next] > {e}')
+                    print(f'album_details() > get[next] > {e}')
                     # sleep(60)
                 else:
                     break
@@ -153,7 +153,7 @@ def all_tracks(bunch: list[str]) -> None:
                 # argument -> proxies=proxies for using this in Iran
                 response = requests.get(url, headers=header)
             except Exception as e:
-                print(f'all_track -> get: {e}')
+                print(f'all_track() > get > {e}')
                 # sleep(60)
             else:
                 break
@@ -172,7 +172,7 @@ def all_tracks(bunch: list[str]) -> None:
                             next_tracks_url,
                             headers=header)
                     except Exception as e:
-                        print(f'all_track -> get[next]: {e}')
+                        print(f'all_track() > get[next] > {e}')
                         # sleep(60)
                     else:
                         break
@@ -213,7 +213,7 @@ def track_details(bunch: list[str]) -> None:
                 # argument -> proxies=proxies for using this in Iran
                 response = requests.get(url, headers=header)
             except Exception as e:
-                print(f'track_details -> get: {e}')
+                print(f'track_details() > get() > {e}')
                 # sleep(60)
             else:
                 break
@@ -282,7 +282,7 @@ def artist_info(bunch: list[str]) -> None:
                 # argument -> proxies=proxies for using this in Iran
                 response = requests.get(url, headers=header)
             except Exception as e:
-                print(f'artist_info -> get: {e}')
+                print(f'artist_info() > get() > {e}')
                 # sleep(60)
             else:
                 break
@@ -321,7 +321,7 @@ def main():
             else:
                 break
         except Exception as e:
-            print(f'main > albums_details() > {e}')
+            print(f'main() > albums_details() > {e}')
             # sleep(300)
 
     # sleep(600)
@@ -341,7 +341,7 @@ def main():
             else:
                 break
         except Exception as e:
-            print(f'all_track function: {e}')
+            print(f'all_track function > {e}')
             # sleep(300
 
     # sleep(600)
@@ -361,7 +361,7 @@ def main():
             else:
                 break
         except Exception as e:
-            print(f'track_details function: {e}')
+            print(f'track_details function > {e}')
 
     # sleep(600)
 
@@ -377,7 +377,7 @@ def main():
             else:
                 break
         except Exception as e:
-            print(f'artist_info function: {e}')
+            print(f'artist_info function > {e}')
         # sleep(300)
 
     # sleep(600)
