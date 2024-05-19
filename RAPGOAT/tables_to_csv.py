@@ -19,6 +19,7 @@ def get_database_dir() -> str:
 
     path = os.getcwd()
     database_dir = os.path.join(path, 'RapGoat.db')
+    print(database_dir)
     return database_dir
 
 
@@ -96,7 +97,7 @@ def convertor(database_dir: str) -> None:
         except IOError as e:
             print(f'convertor > {e}')
         else:
-            print('Data export was successful')
+            print('Data export was successful.')
         finally:
             con.close()
 
