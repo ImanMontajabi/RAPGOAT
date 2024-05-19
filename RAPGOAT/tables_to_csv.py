@@ -4,6 +4,10 @@ import csv
 import sqlite3
 
 
+
+# TODO: set null for not exist data
+
+
 def get_database_dir() -> str:
     path = os.getcwd()
     database_dir = path + '/RapGoat.db'
