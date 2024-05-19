@@ -1,4 +1,5 @@
 import os
+import sys
 import json
 import base64
 # from time import sleep
@@ -8,9 +9,12 @@ import requests
 
 from SpotifyInit import artist_page, base_url, cur, con
 
-CLIENT_ID = os.environ['client_id']
-CLIENT_SECRET = os.environ['client_secret']
-print(CLIENT_ID, CLIENT_SECRET)
+try:
+    CLIENT_ID = os.environ['client_id']
+    CLIENT_SECRET = os.environ['client_secret']
+except Exception as ee:
+    print(ee)
+    sys.exit(1)
 
 
 def auth_header() -> dict[str, str]:
