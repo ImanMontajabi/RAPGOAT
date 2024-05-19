@@ -1,5 +1,4 @@
 import os
-import sys
 import json
 import base64
 # from time import sleep
@@ -9,12 +8,8 @@ import requests
 
 from SpotifyInit import artist_page, base_url, cur, con
 
-try:
-    CLIENT_ID = os.environ['client_id']
-    CLIENT_SECRET = os.environ['client_secret']
-except Exception as ee:
-    print(ee)
-    sys.exit(1)
+CLIENT_ID = os.environ['client_id']
+CLIENT_SECRET = os.environ['client_secret']
 
 
 def auth_header() -> dict[str, str]:
@@ -71,7 +66,7 @@ def albums_details(bunch: list[str]) -> None:
                 # argument -> proxies=proxies for using this in Iran
                 response = requests.get(url, headers=header)
             except Exception as e:
-                print(f'albums_details -> get: {e}')
+                print(f'albums_details() > get() > {e}')
                 # sleep(60)
             else:
                 break
@@ -88,7 +83,7 @@ def albums_details(bunch: list[str]) -> None:
                         albums['next'],
                         headers=header)
                 except Exception as e:
-                    print(f'album_details -> get[next]: {e}')
+                    print(f'album_details > get[next] > {e}')
                     # sleep(60)
                 else:
                     break
@@ -326,7 +321,7 @@ def main():
             else:
                 break
         except Exception as e:
-            print(f'albums_details function: {e}')
+            print(f'main > albums_details() > {e}')
             # sleep(300)
 
     # sleep(600)
