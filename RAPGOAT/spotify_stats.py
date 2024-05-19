@@ -8,8 +8,9 @@ import requests
 
 from SpotifyInit import artist_page, base_url, cur, con
 
-CLIENT_ID = os.environ['CLIENT_ID']
-CLIENT_SECRET = os.environ['CLIENT_SECRET']
+CLIENT_ID = os.environ['client_id']
+CLIENT_SECRET = os.environ['client_secret']
+print(CLIENT_ID, CLIENT_SECRET)
 
 
 def auth_header() -> dict[str, str]:
