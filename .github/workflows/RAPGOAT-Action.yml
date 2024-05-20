@@ -1,9 +1,10 @@
 name: RAPGOAT Actions
 
 on:
+  #schedule:
+   # - cron: "0 10 * * *"
+
   push:
-    branches: [ main ]
-  pull_request:
     branches: [ main ]
 
 env:
@@ -21,10 +22,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python 3.10
+      - name: Set up Python 3.12
         uses: actions/setup-python@v3
         with:
-          python-version: '3.10'
+          python-version: '3.12'
 
       - name: Install dependencies
         run: |
@@ -41,5 +42,5 @@ jobs:
           git config user.email "iman.montajabi@gmail.com"
           git add -A
           timestamp=$(date -u)
-          git commit -m "🛢️️ Database updated ⏰ ${timestamp}" || exit 0
+          git commit -m "🪁️ Database updated ⏰ ${timestamp}" || exit 0
           git push origin main
