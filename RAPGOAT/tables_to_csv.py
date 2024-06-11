@@ -57,7 +57,7 @@ def convertor(database_dir: str) -> None:
                 ''')
             all_data = cur.fetchall()
         except sqlite3.DatabaseError as e:
-            print(f'Data Export from {table_name} was unsuccessful > {e}')
+            print(f'Data export from {table_name} was unsuccessful > {e}')
             exit(1)
         else:
             '''According to PEP 249, this read-only attribute is a sequence of 
@@ -91,7 +91,7 @@ def convertor(database_dir: str) -> None:
         except IOError as e:
             print(f'convertor > {e}')
         else:
-            print('Data export was successful.')
+            print(f'Data export from {table_name} was successful.')
 
     con.close()
 

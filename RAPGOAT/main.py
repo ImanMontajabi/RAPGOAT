@@ -4,28 +4,29 @@ import tables_to_csv
 
 
 if __name__ == '__main__':
-    print('- spotify is started...')
+    print('main() > spotify is started...')
     try:
         spotify_stats.main()
     except Exception as e:
-        print(f'Updating process spotify in main.py encountered an error: {e}')
+        print(f'main() > Updating process spotify in'
+              f' main.py encountered an error > {e}')
     else:
-        print('Spotify successfully updated')
+        print('main() > Spotify successfully updated')
 
     try:
-        print('- soundcloud is started...')
+        print('main() > soundcloud is started...')
         soundcloud_stats.main()
     except Exception as e:
-        print(f'Updating process soundcloud'
-              f' in main.py encountered an error: {e}')
+        print(f'main() > Updating process soundcloud'
+              f' in main.py encountered an error > {e}')
     else:
-        print('Soundcloud successfully updated')
+        print('main() > Soundcloud successfully updated')
 
     try:
-        print('- convertor is started...')
+        print('main() > convertor is started...')
         tables_to_csv.main()
     except Exception as e:
-        print(f'Updating process table to csv'
-              f' in main.py encountered an error: {e}')
+        print(f'main() > Updating process table to csv'
+              f' in main.py encountered an error > {e}')
     else:
-        print('Tables to csv successfully updated')
+        print('main() > Export tables to csv successfully executed')
