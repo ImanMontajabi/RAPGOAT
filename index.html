@@ -10,6 +10,8 @@
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <!-- DataTables JS -->
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <!-- PapaParse JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 </head>
 <body>
     <h1>SoundCloud Tracks</h1>
@@ -26,37 +28,36 @@
                 <th>Cover URL</th>
             </tr>
         </thead>
+        <tbody>
+        </tbody>
     </table>
 
     <script>
         $(document).ready(function() {
-            $('#example').DataTable({
-                "ajax": {
-                    "url": "CSV/soundcloud_tracks.csv",
-                    "dataSrc": function(csv) {
-                        const lines = csv.split('\n');
-                        const headers = lines[0].split(',');
-                        const data = lines.slice(1).map(line => {
-                            const values = line.split(',');
-                            const obj = {};
-                            headers.forEach((header, index) => {
-                                obj[header.trim()] = values[index] ? values[index].trim() : "";
+            $.ajax({
+                url: 'CSV/soundcloud_tracks.csv',
+                dataType: 'text',
+                success: function(data) {
+                    Papa.parse(data, {
+                        header: true,
+                        skipEmptyLines: true,
+                        complete: function(results) {
+                            $('#example').DataTable({
+                                data: results.data,
+                                columns: [
+                                    { data: 'track_url' },
+                                    { data: 'page_name' },
+                                    { data: 'track_title' },
+                                    { data: 'plays' },
+                                    { data: 'likes' },
+                                    { data: 'comments' },
+                                    { data: 'upload_datetime' },
+                                    { data: 'cover_url' }
+                                ]
                             });
-                            return obj;
-                        });
-                        return data;
-                    }
-                },
-                "columns": [
-                    { "data": "track_url" },
-                    { "data": "page_name" },
-                    { "data": "track_title" },
-                    { "data": "plays" },
-                    { "data": "likes" },
-                    { "data": "comments" },
-                    { "data": "upload_datetime" },
-                    { "data": "cover_url" }
-                ]
+                        }
+                    });
+                }
             });
         });
     </script>
