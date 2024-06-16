@@ -4,33 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SoundCloud Tracks</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- DataTables CSS -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
     <!-- jQuery -->
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- DataTables JS -->
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
     <!-- PapaParse JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 </head>
 <body>
-    <h1>SoundCloud Tracks</h1>
-    <table id="example" class="display" style="width:100%">
-        <thead>
-            <tr>
-                <th>Track URL</th>
-                <th>Page Name</th>
-                <th>Track Title</th>
-                <th>Plays</th>
-                <th>Likes</th>
-                <th>Comments</th>
-                <th>Upload Datetime</th>
-                <th>Cover URL</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+    <div class="container mt-5">
+        <h1 class="mb-4">SoundCloud Tracks</h1>
+        <table id="example" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Track URL</th>
+                    <th>Page Name</th>
+                    <th>Track Title</th>
+                    <th>Plays</th>
+                    <th>Likes</th>
+                    <th>Comments</th>
+                    <th>Upload Datetime</th>
+                    <th>Cover URL</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
 
     <script>
         $(document).ready(function() {
@@ -53,7 +60,19 @@
                                     { data: 'comments' },
                                     { data: 'upload_datetime' },
                                     { data: 'cover_url' }
-                                ]
+                                ],
+                                "pagingType": "simple",
+                                "lengthMenu": [5, 10, 25, 50],
+                                "pageLength": 10,
+                                "responsive": true,
+                                "language": {
+                                    "search": "جستجو:",
+                                    "lengthMenu": "نمایش _MENU_ رکورد در هر صفحه",
+                                    "zeroRecords": "رکوردی یافت نشد",
+                                    "info": "نمایش صفحه _PAGE_ از _PAGES_",
+                                    "infoEmpty": "رکوردی موجود نیست",
+                                    "infoFiltered": "(فیلتر شده از _MAX_ رکورد)"
+                                }
                             });
                         }
                     });
