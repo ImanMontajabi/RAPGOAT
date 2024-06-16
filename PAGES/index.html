@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoundCloud Artists</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- FontAwesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+    <!-- jQuery -->
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <!-- DataTables JS -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+    <!-- PapaParse JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <style>
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding: 0.5rem 0.75rem;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+        .dataTables_length select {
+            width: auto;
+            display: inline-block;
+        }
+        .dataTables_filter {
+            margin-bottom: 10px;
+        }
+        table.dataTable thead th.sorting:before,
+        table.dataTable thead th.sorting:after,
+        table.dataTable thead th.sorting_asc:before,
+        table.dataTable thead th.sorting_asc:after,
+        table.dataTable thead th.sorting_desc:before,
+        table.dataTable thead th.sorting_desc:after {
+            display: none;
+        }
+        table.dataTable thead th:first-child {
+            cursor: default;
+        }
+        /* New style for centering columns */
+        table.dataTable td, table.dataTable th {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">SoundCloud Artists</h1>
+        <div class="table-responsive">
+            <table id="example" class="table table-striped table-bordered table-hover" style="width:100%">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Address</th>
+                        <th>Page</th>
+                        <th>Followers</th>
+                        <th>Followings</th>
+                        <th>Tracks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: 'https://raw.githubusercontent.com/ImanMontajabi/RAPGOAT/main/CSV/soundcloud_artist.csv',
+                dataType: 'text',
+                success: function(data) {
+                    Papa.parse(data, {
+                        header: true,
+                        skipEmptyLines: true,
+                        complete: function(results) {
+                            console.log(results.data);
+                            $('#example').DataTable({
+                                data: results.data,
+                                columnDefs: [
+                                    { targets: 0, orderable: false, data: 'avatar_url', render: function(data, type, row) {
+                                        return `<img src="${data}" class="avatar" alt="Avatar">`;
+                                    }},
+                                    { targets: 1, data: 'page_url', render: function(data, type, row) {
+                                        return `<a href="${data}" target="_blank">${data}</a>`;
+                                    }},
+                                    { targets: 2, data: 'page_name' },
+                                    { targets: 3, data: 'followers' },
+                                    { targets: 4, data: 'followings' },
+                                    { targets: 5, data: 'tracks' }
+                                ],
+                                "pagingType": "simple_numbers",
+                                "lengthMenu": [5, 10, 25, 50],
+                                "pageLength": 10,
+                                "responsive": true,
+                                "language": {
+                                    "search": `<i class="fas fa-search"></i>`,
+                                    "lengthMenu": "Show _MENU_ records per page",
+                                    "zeroRecords": "No records found",
+                                    "info": "Showing page _PAGE_ of _PAGES_",
+                                    "infoEmpty": "No records available",
+                                    "infoFiltered": "(filtered from _MAX_ total records)"
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
