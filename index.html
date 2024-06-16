@@ -35,7 +35,7 @@
     <script>
         $(document).ready(function() {
             $.ajax({
-                url: 'CSV/soundcloud_tracks.csv',
+                url: 'https://raw.githubusercontent.com/ImanMontajabi/RAPGOAT/main/CSV/soundcloud_artist.csv',
                 dataType: 'text',
                 success: function(data) {
                     Papa.parse(data, {
