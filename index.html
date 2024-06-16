@@ -6,6 +6,8 @@
     <title>SoundCloud Artists</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- FontAwesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- DataTables CSS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
     <!-- jQuery -->
@@ -28,20 +30,22 @@
 <body>
     <div class="container mt-5">
         <h1 class="mb-4">SoundCloud Artists</h1>
-        <table id="example" class="table table-striped table-bordered" style="width:100%">
-            <thead>
-                <tr>
-                    <th>Page URL</th>
-                    <th>Page Name</th>
-                    <th>Followers</th>
-                    <th>Followings</th>
-                    <th>Tracks</th>
-                    <th>Avatar</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table id="example" class="table table-striped table-bordered table-hover" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Page URL</th>
+                        <th>Page Name</th>
+                        <th>Followers</th>
+                        <th>Followings</th>
+                        <th>Tracks</th>
+                        <th>Avatar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script>
@@ -54,7 +58,7 @@
                         header: true,
                         skipEmptyLines: true,
                         complete: function(results) {
-                            console.log(results.data); // بررسی داده‌های تجزیه شده در کنسول
+                            console.log(results.data);
                             $('#example').DataTable({
                                 data: results.data,
                                 columns: [
@@ -69,12 +73,12 @@
                                         return `<img src="${data}" class="avatar" alt="Avatar">`;
                                     }}
                                 ],
-                                "pagingType": "simple",
+                                "pagingType": "simple_numbers",
                                 "lengthMenu": [5, 10, 25, 50],
                                 "pageLength": 10,
                                 "responsive": true,
                                 "language": {
-                                    "search": "Search:",
+                                    "search": `<i class="fas fa-search"></i>`,
                                     "lengthMenu": "Show _MENU_ records per page",
                                     "zeroRecords": "No records found",
                                     "info": "Showing page _PAGE_ of _PAGES_",
