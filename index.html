@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoundCloud Tracks</title>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+    <!-- jQuery -->
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <!-- DataTables JS -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+</head>
+<body>
+    <h1>SoundCloud Tracks</h1>
+    <table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Track URL</th>
+                <th>Page Name</th>
+                <th>Track Title</th>
+                <th>Plays</th>
+                <th>Likes</th>
+                <th>Comments</th>
+                <th>Upload Datetime</th>
+                <th>Cover URL</th>
+            </tr>
+        </thead>
+    </table>
+
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable({
+                "ajax": {
+                    "url": "CSV/soundcloud_tracks.csv",
+                    "dataSrc": function(csv) {
+                        const lines = csv.split('\n');
+                        const headers = lines[0].split(',');
+                        const data = lines.slice(1).map(line => {
+                            const values = line.split(',');
+                            const obj = {};
+                            headers.forEach((header, index) => {
+                                obj[header.trim()] = values[index] ? values[index].trim() : "";
+                            });
+                            return obj;
+                        });
+                        return data;
+                    }
+                },
+                "columns": [
+                    { "data": "track_url" },
+                    { "data": "page_name" },
+                    { "data": "track_title" },
+                    { "data": "plays" },
+                    { "data": "likes" },
+                    { "data": "comments" },
+                    { "data": "upload_datetime" },
+                    { "data": "cover_url" }
+                ]
+            });
+        });
+    </script>
+</body>
+</html>
