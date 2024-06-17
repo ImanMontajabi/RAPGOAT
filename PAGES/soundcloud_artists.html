@@ -91,7 +91,14 @@
                         header: true,
                         skipEmptyLines: true,
                         complete: function(results) {
-                            console.log(results.data);
+                            // Parse numeric fields to ensure correct sorting
+                            results.data.forEach(function(row) {
+                                // Convert string numbers to integers for followers, followings, and tracks
+                                row.followers = parseInt(row.followers) || 0;
+                                row.followings = parseInt(row.followings) || 0;
+                                row.tracks = parseInt(row.tracks) || 0;
+                            });
+
                             $('#example').DataTable({
                                 data: results.data,
                                 columnDefs: [

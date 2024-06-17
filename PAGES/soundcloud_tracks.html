@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoundCloud Tracks</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- FontAwesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+    <!-- jQuery -->
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <!-- DataTables JS -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+    <!-- PapaParse JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <style>
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding: 0.5rem 0.75rem;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+        .dataTables_length select {
+            width: auto;
+            display: inline-block;
+        }
+        .dataTables_filter {
+            margin-bottom: 10px;
+        }
+        table.dataTable thead th.sorting:before,
+        table.dataTable thead th.sorting:after,
+        table.dataTable thead th.sorting_asc:before,
+        table.dataTable thead th.sorting_asc:after,
+        table.dataTable thead th.sorting_desc:before,
+        table.dataTable thead th.sorting_desc:after {
+            display: none;
+        }
+        table.dataTable thead th:first-child {
+            cursor: default;
+        }
+        /* New style for centering columns */
+        table.dataTable td, table.dataTable th {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">SoundCloud Tracks</h1>
+        <div class="table-responsive">
+            <table id="example" class="table table-striped table-bordered table-hover" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Cover Image</th>
+                        <th>Track Title</th>
+                        <th>Page Name</th>
+                        <th>Plays</th>
+                        <th>Likes</th>
+                        <th>Comments</th>
+                        <th>Upload Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: 'https://raw.githubusercontent.com/ImanMontajabi/RAPGOAT/main/CSV/soundcloud_tracks.csv',
+                dataType: 'text',
+                success: function(data) {
+                    Papa.parse(data, {
+                        header: true,
+                        skipEmptyLines: true,
+                        complete: function(results) {
+                            // Parse dates and other necessary transformations
+                            results.data.forEach(function(row) {
+                                row.upload_datetime = new Date(row.upload_datetime); // Parse upload_datetime as Date
+                                row.plays = parseInt(row.plays) || '-'; // Convert plays to integer or set to dash if NaN
+                                row.likes = parseInt(row.likes) || '-'; // Convert likes to integer or set to dash if NaN
+                                row.comments = parseInt(row.comments) || '-'; // Convert comments to integer or set to dash if NaN
+                            });
+
+                            $('#example').DataTable({
+                                data: results.data,
+                                columns: [
+                                    { data: 'cover_url', render: function(data, type, row) {
+                                        return `<img src="${data}" class="avatar" alt="Cover">`;
+                                    }},
+                                    { data: 'track_title' },
+                                    { data: 'page_name' },
+                                    { data: 'plays', type: 'num' }, // Specify type as 'num' for numerical sorting
+                                    { data: 'likes', type: 'num' }, // Specify type as 'num' for numerical sorting
+                                    { data: 'comments', type: 'num' }, // Specify type as 'num' for numerical sorting
+                                    {
+                                        data: 'upload_datetime',
+                                        render: function(data, type, row) {
+                                            return new Date(data).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+                                        },
+                                        type: 'date', // Specify the type as 'date' for proper sorting
+                                        orderData: [6] // Ensure sorting is based on the upload_datetime column
+                                    }
+                                ],
+                                "pagingType": "simple_numbers",
+                                "lengthMenu": [5, 10, 25, 50, 100, 500, 10000], // Include 10000 as an option
+                                "pageLength": 10,
+                                "responsive": true,
+                                "language": {
+                                    "search": `<i class="fas fa-search"></i>`,
+                                    "lengthMenu": "Show _MENU_ records per page",
+                                    "zeroRecords": "No records found",
+                                    "info": "Showing page _PAGE_ of _PAGES_",
+                                    "infoEmpty": "No records available",
+                                    "infoFiltered": "(filtered from _MAX_ total records)"
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

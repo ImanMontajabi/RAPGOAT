@@ -4,8 +4,8 @@ on:
   #schedule:
    # - cron: "0 10 * * *"
 
-  push:
-    branches: [ main ]
+  #push:
+    #branches: [ main ]
 
 env:
   client_id: ${{ secrets.CLIENT_ID }}
