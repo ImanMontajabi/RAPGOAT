@@ -9,7 +9,7 @@
     
 | platform | Link | Link |
 | -------- | -------| ------ |
-| SoundCloud | [Artists](https://imanmontajabi.github.io/RAPGOAT/PAGES/soundcloud_artists.html) | [Tracks](https://imanmontajabi.github.io/RAPGOAT/PAGES/soundcloud_artists.html) |
+| SoundCloud | [Artists](https://imanmontajabi.github.io/RAPGOAT/PAGES/soundcloud_artists.html) | [Tracks](https://imanmontajabi.github.io/RAPGOAT/PAGES/soundcloud_tracks.html) |
 | Spotify | [Artists](https://imanmontajabi.github.io/RAPGOAT/PAGES/spotify_artists.html) | [Tracks](https://imanmontajabi.github.io/RAPGOAT/PAGES/spotify_tracks.html) |
 
 </div>
