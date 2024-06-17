@@ -3,6 +3,9 @@ name: RAPGOAT Actions
 on:
   schedule:
     - cron: "20 4,16,17 * * *"
+  push:
+    branches:
+      - main
 
 
 env:
