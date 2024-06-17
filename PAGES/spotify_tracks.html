@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SoundCloud Artists</title>
+    <title>Spotify Tracks</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- FontAwesome CSS -->
@@ -62,17 +62,18 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="mb-4">SoundCloud Artists</h1>
+        <h1 class="mb-4">Spotify Tracks</h1>
         <div class="table-responsive">
             <table id="example" class="table table-striped table-bordered table-hover" style="width:100%">
                 <thead>
                     <tr>
                         <th></th>
-                        <th>Page Name</th>
-                        <th>Followers</th>
-                        <th>Followings</th>
-                        <th>Tracks</th>
-                        <th>SoundCloud Link</th>
+                        <th>Track</th>
+                        <th>Artists</th>
+                        <th>Release Date</th>
+                        <th>Duration (ms)</th>
+                        <th>Popularity</th>
+                        <th>Cover Album</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -84,40 +85,59 @@
     <script>
         $(document).ready(function() {
             $.ajax({
-                url: 'https://raw.githubusercontent.com/ImanMontajabi/RAPGOAT/main/CSV/soundcloud_artist.csv',
+                url: 'https://raw.githubusercontent.com/ImanMontajabi/RAPGOAT/main/CSV/track_details.csv',
                 dataType: 'text',
                 success: function(data) {
                     Papa.parse(data, {
                         header: true,
                         skipEmptyLines: true,
                         complete: function(results) {
-                            // Parse numeric fields to ensure correct sorting
+                            // Parse numeric fields and date
                             results.data.forEach(function(row) {
-                                // Convert string numbers to integers for followers, followings, and tracks
-                                row.followers = parseInt(row.followers) || 0;
-                                row.followings = parseInt(row.followings) || 0;
-                                row.tracks = parseInt(row.tracks) || 0;
-                                // Create SoundCloud link
-                                row.soundcloud_link = `<a href="${row.page_url}" target="_blank">SoundCloud</a>`;
+                                row.duration_ms = parseInt(row.duration_ms); // Convert duration to integer
+                                row.popularity = parseInt(row.popularity); // Convert popularity to integer
+                                // Convert release date to Date object
+                                row.release_date = new Date(row.release_date);
                             });
 
                             $('#example').DataTable({
                                 data: results.data,
                                 columns: [
-                                    { data: 'avatar_url', orderable: false, render: function(data, type, row) {
-                                        return `<img src="${data}" class="avatar" alt="Avatar">`;
-                                    }},
-                                    { data: 'page_name' },
-                                    { data: 'followers', type: 'num' },  // Specify type as numeric
-                                    { data: 'followings', type: 'num' }, // Specify type as numeric
-                                    { data: 'tracks', type: 'num' },     // Specify type as numeric
-                                    { data: 'soundcloud_link' }
-                                ],
-                                "columnDefs": [
-                                    { "targets": [2, 3, 4], "type": "num" } // Ensure sorting type as numeric for specific columns
+                                    {
+                                        data: 'cover_album',
+                                        render: function(data, type, row) {
+                                            var spotifyUrl = `https://open.spotify.com/artist/${row.artists_ids}`;
+                                            return `<a href="${spotifyUrl}" target="_blank"><img src="${data}" class="avatar" alt="Cover"></a>`;
+                                        }
+                                    },
+                                    { data: 'track_name' }, // Display track name in the second column
+                                    { data: 'artists_names' }, // Display artist names instead of artist IDs
+                                    {
+                                        data: 'release_date',
+                                        render: function(data, type, row) {
+                                            // Format date as 'Month Day, Year'
+                                            return data.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+                                        },
+                                        type: 'date', // Specify type as 'date' for date sorting
+                                        targets: 3 // Apply to column index 3 (Release Date)
+                                    },
+                                    {
+                                        data: 'duration_ms',
+                                        render: function(data, type, row) {
+                                            // Display duration in milliseconds
+                                            return row.duration_ms.toString(); // Display without commas
+                                        },
+                                        type: 'num', // Specify type as 'num' for numerical sorting
+                                        targets: 4 // Apply to column index 4 (Duration)
+                                    },
+                                    {
+                                        data: 'popularity',
+                                        type: 'num' // Specify type as 'num' for numerical sorting
+                                    },
+                                    { data: 'cover_album', visible: false } // Hidden column for cover album URL
                                 ],
                                 "pagingType": "simple_numbers",
-                                "lengthMenu": [5, 10, 25, 50],
+                                "lengthMenu": [[5, 10, 25, 50, 100, 500, 10000], [5, 10, 25, 50, 100, '500', '10,000']], // Include 500 and 10000 as options with formatted strings
                                 "pageLength": 10,
                                 "responsive": true,
                                 "language": {

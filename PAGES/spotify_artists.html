@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SoundCloud Artists</title>
+    <title>Spotify Artists</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- FontAwesome CSS -->
@@ -62,17 +62,16 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="mb-4">SoundCloud Artists</h1>
+        <h1 class="mb-4">Spotify Artists</h1>
         <div class="table-responsive">
             <table id="example" class="table table-striped table-bordered table-hover" style="width:100%">
                 <thead>
                     <tr>
                         <th></th>
-                        <th>Page Name</th>
+                        <th>Name</th>
                         <th>Followers</th>
-                        <th>Followings</th>
-                        <th>Tracks</th>
-                        <th>SoundCloud Link</th>
+                        <th>Popularity</th>
+                        <th>Spotify Link</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -84,7 +83,7 @@
     <script>
         $(document).ready(function() {
             $.ajax({
-                url: 'https://raw.githubusercontent.com/ImanMontajabi/RAPGOAT/main/CSV/soundcloud_artist.csv',
+                url: 'https://raw.githubusercontent.com/ImanMontajabi/RAPGOAT/main/CSV/artist_info.csv',
                 dataType: 'text',
                 success: function(data) {
                     Papa.parse(data, {
@@ -93,28 +92,23 @@
                         complete: function(results) {
                             // Parse numeric fields to ensure correct sorting
                             results.data.forEach(function(row) {
-                                // Convert string numbers to integers for followers, followings, and tracks
+                                // Concatenate Spotify artist URL
+                                row.spotify_link = `<a href="https://open.spotify.com/artist/${row.artist_id}">Spotify</a>`;
+                                // Convert string numbers to integers for followers and popularity
                                 row.followers = parseInt(row.followers) || 0;
-                                row.followings = parseInt(row.followings) || 0;
-                                row.tracks = parseInt(row.tracks) || 0;
-                                // Create SoundCloud link
-                                row.soundcloud_link = `<a href="${row.page_url}" target="_blank">SoundCloud</a>`;
+                                row.popularity = parseInt(row.popularity) || 0;
                             });
 
                             $('#example').DataTable({
                                 data: results.data,
                                 columns: [
-                                    { data: 'avatar_url', orderable: false, render: function(data, type, row) {
+                                    { data: 'image', orderable: false, render: function(data, type, row) {
                                         return `<img src="${data}" class="avatar" alt="Avatar">`;
                                     }},
-                                    { data: 'page_name' },
-                                    { data: 'followers', type: 'num' },  // Specify type as numeric
-                                    { data: 'followings', type: 'num' }, // Specify type as numeric
-                                    { data: 'tracks', type: 'num' },     // Specify type as numeric
-                                    { data: 'soundcloud_link' }
-                                ],
-                                "columnDefs": [
-                                    { "targets": [2, 3, 4], "type": "num" } // Ensure sorting type as numeric for specific columns
+                                    { data: 'name' },
+                                    { data: 'followers' },
+                                    { data: 'popularity' },
+                                    { data: 'spotify_link' }
                                 ],
                                 "pagingType": "simple_numbers",
                                 "lengthMenu": [5, 10, 25, 50],
