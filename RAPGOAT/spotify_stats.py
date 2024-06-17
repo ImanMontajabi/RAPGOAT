@@ -6,7 +6,7 @@ from random import shuffle
 
 import requests
 
-from SpotifyInit import artist_page, base_url, cur, con
+from SpotifyInit import artist_page, base_url, cur, con, proxies
 
 CLIENT_ID = os.environ['client_id']
 CLIENT_SECRET = os.environ['client_secret']
@@ -30,7 +30,6 @@ def auth_header() -> dict[str, str]:
                 url,
                 headers=headers,
                 data=data)
-            print('salam')
         except Exception as e:
             print(f'auth_header() > post() > {e}')
             # sleep(60)
