@@ -3,10 +3,6 @@ name: RAPGOAT Actions
 on:
   schedule:
     - cron: "0 11 * * *"
-  push:
-    branch:
-      - main
-
 
 env:
   client_id: ${{ secrets.CLIENT_ID }}
