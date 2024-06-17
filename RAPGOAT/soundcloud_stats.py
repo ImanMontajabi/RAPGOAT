@@ -46,7 +46,7 @@ def extract_hq_image_url(style: str) -> str:
     match = re.search(url_pattern, style)
     if match:
         url = match.group()
-        url_hq = url.replace('-t200x200.jpg', '-t500x500.jpg')
+        url_hq = url.replace('-t200x200.jpg', '-t50x50.jpg')
         return url_hq
 
 

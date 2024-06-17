@@ -98,7 +98,7 @@ def albums_details(bunch: list[str]) -> None:
             total_tracks = album['items'][i]['total_tracks']
             release_date = album['items'][i]['release_date']
             album_type = album['items'][i]['album_type']
-            cover = album['items'][i]['images'][0]['url']
+            cover = album['items'][i]['images'][2]['url']
             artist_names: list['str'] = []
             artist_ids: list['str'] = []
             for artist in album['items'][i]['artists']:
@@ -227,7 +227,7 @@ def track_details(bunch: list[str]) -> None:
             release_date = track['album']['release_date']
             duration_ms = track['duration_ms']
             popularity = track['popularity']
-            cover_album = track['album']['images'][0]['url']
+            cover_album = track['album']['images'][2]['url']
             artists_names: list[str] = []
             artists_ids: list[str] = []
             for artist_name in track['artists']:
