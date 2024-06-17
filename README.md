@@ -1,6 +1,6 @@
 <p align="center">
-    <img src="https://github.com/ImanMontajabi/RAPGOAT/assets/52942515/9d19458a-e251-4832-9a06-268ada44d587" alt="RAPGOAT" width="200">
-</p>
+<img src="https://github.com/ImanMontajabi/RAPGOAT/assets/52942515/38f45c64-dc02-4198-a687-3a4eef004387" alt="1" width="200">
+<p>
 
 
 <h1 align="center">RAPGOAT</h1>
@@ -24,12 +24,6 @@ Feel free to use the information above, and I'm always happy to consider pull re
 > Database updates everyday at 07:30 UTC time ⏲️
 
 
-
-<p>
-<img src="https://github.com/ImanMontajabi/RAPGOAT/assets/52942515/38f45c64-dc02-4198-a687-3a4eef004387" alt="1" width="200">
-<p>
-
-
 ## Soundcloud Artists 🌴
 
 1. 021G
@@ -37,37 +31,30 @@ Feel free to use the information above, and I'm always happy to consider pull re
 3. Ali Geramy
 4. Ali Sorena
 5. Amin Tijay
-6. Amir Tataloo
-7. Arman Miladi
-8. Arta
-9. Ashkan Kagan
-10. CatchyBeatz
-11. Chvrsi
-12. Dalu
-13. Dariu$h
-14. Dorcci
-15. Eycin
-16. Gdaal
-17. HesamTiem
-18. Hichkas
-19. Hiphopologist
-20. Hoodadk4
-21. Koorosh
-22. Mahdyar
-23. Matin Fattahi
-24. Poori
-25. PooBon
-26. Pouriya Adroit
-27. PutaK
-28. Reza Pishro
-29. Sajad Shahi
-30. Tiem
-31. VINAK
-32. Young Sudden
-
-<p>
-<img src="https://github.com/ImanMontajabi/RAPGOAT/assets/52942515/7d7fe7ab-338a-4180-be18-ba1b4afe3811" alt="1" width="200">
-<p>
+6. Arta
+7. Ashkan Kagan
+8. CatchyBeatz
+9. Chvrsi
+10. Dalu
+11. Dariu$h
+12. Dorcci
+13. Eycin
+14. Gdaal
+15. HesamTiem
+16. Hiphopologist
+17. Hoodadk4
+18. Koorosh
+19. Mahdyar
+20. Matin Fattahi
+21. Poori
+22. Pouriya Adroit
+23. PutaK
+24. Reza Pishro
+25. Sajad Shahi
+26. Tiem
+27. VINAK
+28. Young Sudden
+29. Hichkas
 
 
 ## Spotify Artists 🌳
@@ -110,17 +97,15 @@ Feel free to use the information above, and I'm always happy to consider pull re
 36. Sadegh
 37. Sajad Shahi
 38. Saeed Dehghan
-39. Sasy
-40. Sepehr Khalse
-41. Shapur
-42. Shahin Najafi
-43. Shayea
-44. SoelChigini
-45. Tiem
-46. Tohi
-47. Vinak
-48. Yas
-49. Young Sudden
-
+39. Sepehr Khalse
+40. Shapur
+41. Shahin Najafi
+42. Shayea
+43. SoelChigini
+44. Tiem
+45. Tohi
+46. Vinak
+47. Yas
+48. Young Sudden
 
 
