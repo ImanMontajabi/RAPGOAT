@@ -53,7 +53,6 @@ artist_page: dict[str, str] = {
     'Hoodadk4': '1wJm5nKEUlhdV48hMMwzAm',
     'Shayea': '3QNGoF6VzVNnkpjJDT3NHq',
     'Sadegh': '1PgsdK1Ll4oK28g6KLPOg1',
-    'Sasy': '0LkkLM2M97UEG7hi5mLn3u',
     'Shahin Najafi': '1W5u8Bz2yimyuuI8QNYsNO',
     'Paya': '62AW9VlTxtw554o2Sll0fK',
     'Mahdyar': '0FNHT8Xv2B3q4SoBAXgnq2',

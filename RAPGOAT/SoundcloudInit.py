@@ -23,7 +23,6 @@ my_xpath: dict[str, str] = {
 artist_page: dict[str, str] = {
     'Mahdyar': 'https://soundcloud.com/mahdyar',
     'Dorcci': 'https://soundcloud.com/dorcci',
-    'Amir Tataloo': 'https://soundcloud.com/amirtataloo',
     'Hiphopologist': 'https://soundcloud.com/hiphopologistsoroush',
     'Reza Pishro': 'https://soundcloud.com/reza-pishro-rail',
     'CatchyBeatz': 'https://soundcloud.com/tiktaak-sr',
@@ -32,8 +31,6 @@ artist_page: dict[str, str] = {
     'Young Sudden': 'https://soundcloud.com/youngsudden',
     'Koorosh': 'https://soundcloud.com/koorowsh420',
     'Arta': 'https://soundcloud.com/arta-mir',
-    'Arman Miladi': 'https://soundcloud.com/arman-miladi',
-    'PooBon': 'https://soundcloud.com/tetroparja',
     'Ali Sorena': 'https://soundcloud.com/alisorena',
     'Ashkan Kagan': 'https://soundcloud.com/ashkankagan',
     'Hichkas': 'https://soundcloud.com/hichkasofficial',
