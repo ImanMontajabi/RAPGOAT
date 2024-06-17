@@ -30,6 +30,7 @@ def auth_header() -> dict[str, str]:
                 url,
                 headers=headers,
                 data=data)
+            print('salam')
         except Exception as e:
             print(f'auth_header() > post() > {e}')
             # sleep(60)

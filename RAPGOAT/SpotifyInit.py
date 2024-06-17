@@ -4,8 +4,8 @@ import sqlite3
 base_url: str = 'https://api.spotify.com/v1'
 
 proxies: dict[str, str] = {
-        'http': 'http://192.168.1.101:8080',
-        'https': 'http://192.168.1.101:8080',
+        'http': 'http://192.168.1.101:9090',
+        'https': 'http://192.168.1.101:9090',
     }
 
 try:

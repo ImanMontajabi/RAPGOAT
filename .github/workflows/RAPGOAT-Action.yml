@@ -2,7 +2,7 @@ name: RAPGOAT Actions
 
 on:
   schedule:
-    - cron: "0 16 * * *"
+    - cron: "0 4,16 * * *"
 
 
 env:
@@ -36,7 +36,7 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git config user.name "ImanMontajabi"
+          git config user.name "Iman Montajabi"
           git config user.email "iman.montajabi@gmail.com"
           git add -A
           timestamp=$(date -u)
