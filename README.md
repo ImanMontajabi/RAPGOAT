@@ -15,5 +15,11 @@ https://imanmontajabi.github.io/RAPGOAT/PAGES/spotify_tracks.html
 <h1 align="center">RAPGOAT</h1>
 
 
+| platform | Link | Link |
+| -------- | -------| ------ |
+| SoundCloud | [Artists](https://imanmontajabi.github.io/RAPGOAT/PAGES/soundcloud_artists.html) | [Tracks](https://imanmontajabi.github.io/RAPGOAT/PAGES/soundcloud_artists.html) |
+| Spotify | [Artists](https://imanmontajabi.github.io/RAPGOAT/PAGES/spotify_artists.html) | [Tracks](https://imanmontajabi.github.io/RAPGOAT/PAGES/spotify_tracks.html) |
+
+
 <p align="center"
 >soon... 🐐️</p>
