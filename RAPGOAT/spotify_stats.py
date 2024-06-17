@@ -6,7 +6,7 @@ from random import shuffle
 
 import requests
 
-from SpotifyInit import artist_page, base_url, cur, con, proxies
+from SpotifyInit import artist_page, base_url, cur, con
 
 CLIENT_ID = os.environ['client_id']
 CLIENT_SECRET = os.environ['client_secret']
