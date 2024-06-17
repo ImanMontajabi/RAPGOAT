@@ -2,7 +2,7 @@ name: RAPGOAT Actions
 
 on:
   schedule:
-    - cron: "0 4,16 * * *"
+    - cron: "20 4,16, 17 * * *"
 
 
 env:
