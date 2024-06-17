@@ -21,7 +21,7 @@ This repository uses the official Spotify API and a custom scraper for SoundClou
 Feel free to use the information above, and I'm always happy to consider pull requests and ideas. 🤺
 
 > [!NOTE]
-> Database updates everyday at 07:30 UTC time ⏲️
+> Database updates everyday at 11:00 UTC time ⏲️
 
 
 ## Soundcloud Artists 🌴
