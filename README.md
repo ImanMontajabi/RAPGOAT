@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://github.com/ImanMontajabi/RAPGOAT/assets/52942515/38f45c64-dc02-4198-a687-3a4eef004387" alt="1" width="200">
+<img src="https://github.com/ImanMontajabi/RAPGOAT/assets/52942515/e3f7aab2-6931-418a-9b37-435889c29d93" alt="1" width="200">
 <p>
 
 
