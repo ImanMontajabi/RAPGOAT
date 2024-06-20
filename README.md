@@ -3,7 +3,6 @@
 <p>
 
 
-<h1 align="center">RAPGOAT</h1>
 
 <div align="center">
     
